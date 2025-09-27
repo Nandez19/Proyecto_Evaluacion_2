@@ -1,17 +1,19 @@
-import uuid
 from database.conexion import Base
 from sqlalchemy import Column, DateTime, ForeignKey, String, text
 from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
+
 
 class Autor(Base):
-    __tablename__ = "Autores"
+    __tablename__ = "Autor"
 
-    Id_Auditoria = Column(
+    Cedula_Autor = Column(
     UNIQUEIDENTIFIER, primary_key=True, server_default=text("NEWID()"), index=True
 )
-    Fecha_Creacion = Column(DateTime, nullable=False)
-    Fecha_Actualizacion = Column(DateTime,nullable=True, onupdate=func.now())
-    Accion = Column(DateTime, server_default=func.now())
+    Nombre = Column(String, nullable=False)
+    Telefono = Column(String,nullable=False)
+    Edad = Column(String,nullable=False)
+
+    #Relaciones
+    libro = relationship("Libro", back_populates="Autor")
     

@@ -9,3 +9,6 @@ from entities import init_entities
 
 Base.metadata.create_all(bind=engine)
 print("✅ Tablas creadas en la base de datos")
+
+
+
