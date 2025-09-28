@@ -3,6 +3,7 @@ from Database.conexion import DATABASE_URL
 from src.entities import __all__
 from Database.conexion import *
 from fastapi import FastAPI
+import uvicorn   
 
 app = FastAPI(
     title="API Biblioteca",
@@ -29,3 +30,18 @@ def startup_event():
 def shutdown_event():
     drop_tables()
     print("✅ Tablas Eliminadas al cerrar FastAPI")
+
+
+def main():     
+    print("Iniciando servidor FastAPI...")
+    uvicorn.run(
+        "main:app",
+        # host="0.0.0.0",
+        port=8000,
+        reload=True,
+        log_level="info",
+    )
+
+
+if __name__ == "__main__":
+    main()

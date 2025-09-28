@@ -4,30 +4,28 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class CitaBase(BaseModel):
-    """Base schema for Cita with common fields."""
+class AutorBase(BaseModel):
 
-    idPaciente: UUID
-    idMedico: UUID
-    fechaAgendamiento: date
-    motivoConsulta: str
-    fechaEmision: datetime
+    Nombre: str
+    Telefono: str
+    Edad: str
 
 
-class CitaCreate(CitaBase):
-    """Schema for creating a new Cita."""
+
+class AutorCreate(AutorBase):
 
     pass
 
 
-class CitaResponse(CitaBase):
-    """Schema for Cita response."""
+class AutorResponse(BaseModel):
 
-    idCita: UUID
-    id_usuario_creacion: Optional[UUID] = None
-    id_usuario_actualizacion: Optional[UUID] = None
-    fecha_creacion: Optional[datetime] = None
-    fecha_actualizacion: Optional[datetime] = None
+    Cedula_Autor: UUID
+    Nombre: str
+    Telefono: str
+    Edad: str
+
+    class Config:
+        from_attributes = True
 
     class Config:
         from_attributes = True

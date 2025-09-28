@@ -18,43 +18,17 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """
-    Verifica si una contraseña en texto plano coincide con el hash.
 
-    Args:
-        plain_password: Contraseña en texto plano
-        hashed_password: Hash de la contraseña
-
-    Returns:
-        bool: True si la contraseña es correcta
-    """
     return pwd_context.verify(plain_password[:72], hashed_password)
 
 
 def get_password_hash(password: str) -> str:
-    """
-    Genera un hash seguro de la contraseña.
 
-    Args:
-        password: Contraseña en texto plano
-
-    Returns:
-        str: Hash de la contraseña
-    """
     return pwd_context.hash(password[:72])
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """
-    Crea un token JWT de acceso.
 
-    Args:
-        data: Datos a incluir en el token
-        expires_delta: Tiempo de expiración personalizado
-
-    Returns:
-        str: Token JWT codificado
-    """
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -67,18 +41,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 
 
 def verify_token(token: str) -> dict:
-    """
-    Verifica y decodifica un token JWT.
-
-    Args:
-        token: Token JWT a verificar
-
-    Returns:
-        dict: Datos decodificados del token
-
-    Raises:
-        HTTPException: Si el token es inválido o ha expirado
-    """
+    
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
