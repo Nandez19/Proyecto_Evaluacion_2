@@ -57,6 +57,3 @@ def get_user_by_email(db: Session, correo: str) -> Optional[Usuario]:
 def get_user_by_id(db: Session, user_id: UUID) -> Optional[Usuario]:
     return db.query(Usuario).filter(Usuario.Cedula_Usuario == user_id).first()
 
-
-# ---------------------------
-# AUTENTICACIÓ

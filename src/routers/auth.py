@@ -4,11 +4,8 @@ from sqlalchemy.orm import Session
 
 from Database.conexion import get_db
 from src.auth.middleware import get_current_user
-from src.controller.auth_controller import (
-    authenticate_user,
-    create_user,
-    create_user_token,
-)
+from src.controller.auth_controller import authenticate_user, create_user, create_user_token
+
 from src.shemas.auth import LoginRequest, LoginResponse, UserCreate, UserResponse
 
 # OAuth2 scheme para extraer el token del header Authorization
