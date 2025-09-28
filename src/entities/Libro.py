@@ -6,7 +6,7 @@ from Database.conexion import Base
 
 
 class Libro(Base):
-    __tablename__ = "Libro"
+    __tablename__ = "Libros"
 
     Codigo_Libro= Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     Titulo = Column(String, nullable=False)
@@ -15,9 +15,13 @@ class Libro(Base):
 
     #Fk
     Cedula_Autor = Column(UUID(as_uuid=True), ForeignKey("Autor.Cedula_Autor"), nullable=False)
+    Id_Editorial = Column(UUID(as_uuid=True), ForeignKey("Editorial.Id_Editorial"), nullable=False)
+    Id_Prestamo = Column(UUID(as_uuid=True), ForeignKey("Prestamo.Id_Prestamo"), nullable=False)
 
     # Relaciones
-    Autor = relationship("Autor", back_populates="Libro")
+    Autor = relationship("Autores", back_populates="Libros")
+    Editorial = relationship("Editoriales", back_populates="Libros")
+    Prestamo = relationship("Prestamos", back_populates="Libros")
 
 
 

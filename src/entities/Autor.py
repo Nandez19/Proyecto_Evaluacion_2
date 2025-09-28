@@ -7,7 +7,7 @@ from Database.conexion import Base
 
 class Autor(Base):
 
-    __tablename__ = "Autor"
+    __tablename__ = "Autores"
 
     Cedula_Autor= Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     Nombre = Column(String, index=True)
@@ -15,5 +15,5 @@ class Autor(Base):
     Edad = Column(String)
 
     # Relaciones
-    libros = relationship("Libro", back_populates="Autor")  
+    libros = relationship("Libros", back_populates="Autores")  
 

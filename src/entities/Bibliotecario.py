@@ -1,13 +1,14 @@
-from database.conexion import Base
-from sqlalchemy import Column, DateTime, ForeignKey, String, text
-from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER
+import uuid
+from sqlalchemy import Column, Date, DateTime, ForeignKey, String
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+from Database.conexion import Base
 
 
 class Bibliotecarios(Base):
-    __tablename__ = "Bibliotecario"
+    __tablename__ = "Bibliotecarios"
 
-    Cedula_Bibliotecario = Column(UNIQUEIDENTIFIER, primary_key=True, server_default=text("NEWID()"), index=True)
+    Cedula_Bibliotecario = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     Nombre = Column(String, nullable=False)
     Telefono = Column(String,nullable=False)
     Edad = Column(String,nullable=False)
