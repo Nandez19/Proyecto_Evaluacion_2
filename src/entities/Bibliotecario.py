@@ -28,10 +28,8 @@ class Bibliotecario(Base):
     Fecha_actualizacion = Column(DateTime, index=True)
 
     #Relaciones
-<<<<<<< HEAD
-    Auditoria = relationship("Auditoria", back_populates="Bibliotecario")
-    Prestamo = relationship("Prestamo", back_populates="Bibliotecario")
-=======
-    prestamo = relationship("Prestamos", back_populates="Bibliotecarios")
->>>>>>> 26578a216dc9364a19d4f8e80fe1dbef1138837a
+
+    Auditoria = relationship("Auditorias", back_populates="Bibliotecario")
+    Prestamo = relationship("Prestamos", back_populates="Bibliotecario")
+
     

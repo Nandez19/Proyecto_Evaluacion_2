@@ -4,13 +4,8 @@ from sqlalchemy import Column, DateTime, ForeignKey, String
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-<<<<<<< HEAD
 
 from database.conexion import Base
-=======
-from Database.conexion import Base
-from sqlalchemy.sql import func
->>>>>>> 26578a216dc9364a19d4f8e80fe1dbef1138837a
 
 class Prestamo(Base):
 
@@ -26,7 +21,6 @@ class Prestamo(Base):
     Estado = Column(String, nullable=False)
 
     #FK
-<<<<<<< HEAD
     Id_Bibliotecario = Column(UUID(as_uuid=True), ForeignKey("Bibliotecarios.Id_Bibliotecario"), nullable=False)
     Id_Usuario = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), nullable=False)
    
@@ -40,12 +34,3 @@ class Prestamo(Base):
     Bibliotecario = relationship("Bibliotecario", back_populates="Prestamo")
     Usuario = relationship("Usuario", back_populates="Prestamo")
     Libro = relationship("Libro", back_populates="Prestamo")
-=======
-    Cedula_Bibliotecario = Column(UUID(as_uuid=True), ForeignKey("Bibliotecario.Cedula_Bibliotecario"), nullable=False)
-    Cedula_Usuario = Column(UUID(as_uuid=True), ForeignKey("Usuario.Cedula_Usuario"), nullable=False)
-
-    #Relaciones
-    bibliotecario = relationship("Bibliotecarios", back_populates="Prestamos")
-    usuario = relationship("Usuarios", back_populates="Prestamos")
-    libro = relationship("Libros", back_populates="Prestamos")
->>>>>>> 26578a216dc9364a19d4f8e80fe1dbef1138837a
