@@ -4,25 +4,24 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class AutorBase(BaseModel):
+class editorialBase(BaseModel):
 
     Nombre: str
-    Telefono: str
-    Edad: str
+    Pais: str
+    Contacto: str
 
 
-class AutorCreate(AutorBase):
+class editorialCreate(editorialBase):
 
     pass
 
-class AutorResponse(BaseModel):
+class editorialResponse(BaseModel):
 
-    Cedula_Autor: UUID
+    Id_Editorial: UUID
     Nombre: str
-    Telefono: str
-    Edad: str
+    Pais: str
+    Contacto: str
 
     class Config:
         from_attributes = True
 
-   

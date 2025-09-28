@@ -21,3 +21,7 @@ class Usuario(Base):
     fecha_creacion = Column(DateTime, default=datetime.utcnow)
     fecha_actualizacion = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    #Relaciones
+    prestamo = relationship("Prestamos", back_populates="Usuarios")
+    
+
