@@ -1,10 +1,18 @@
 import uuid
-from sqlalchemy import Column, Date, DateTime, ForeignKey, String
+
+from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
-from Database.conexion import Base
+
+from database.conexion import Base
 
 class Prestamo(Base):
+
+    """
+    Modelo de prestamo
+    """
+    
     __tablename__ = "Prestamos"
 
     Id_Prestamo = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
@@ -13,10 +21,16 @@ class Prestamo(Base):
     Estado = Column(String, nullable=False)
 
     #FK
-    Cedula_Bibliotecario = Column(UNIQUEIDENTIFIER, ForeignKey("Bibliotecario.Cedula_Bibliotecario"), nullable=False)
-    Cedula_Usuario = Column(UNIQUEIDENTIFIER, ForeignKey("Usuario.Cedula_Usuario"), nullable=False)
+    Id_Bibliotecario = Column(UUID(as_uuid=True), ForeignKey("Bibliotecarios.Id_Bibliotecario"), nullable=False)
+    Id_Usuario = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), nullable=False)
+   
+   # Campos de auditoría
+    Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_usuario"), index=True)
+    Id_usuario_actualizacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_usuario"), index=True)
+    Fecha_creacion = Column(DateTime, index=True)
+    Fecha_actualizacion = Column(DateTime, index=True)
 
     #Relaciones
-    bibliotecario = relationship("Bibliotecario", back_populates="Prestamo")
-    usuario = relationship("Usuario", back_populates="Prestamo")
-    libro = relationship("Libro", back_populates="Prestamo")
+    Bibliotecario = relationship("Bibliotecario", back_populates="Prestamo")
+    Usuario = relationship("Usuario", back_populates="Prestamo")
+    Libro = relationship("Libro", back_populates="Prestamo")
