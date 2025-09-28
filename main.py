@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, text
 from Database.conexion import DATABASE_URL
-from src.entities import __all__
+from src.entities import *
 from Database.conexion import *
 from fastapi import FastAPI
 import uvicorn   
