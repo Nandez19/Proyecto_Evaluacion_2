@@ -31,8 +31,4 @@ class Bibliotecario(Base):
 
     Auditoria = relationship("Auditorias", back_populates="Bibliotecario")
     Prestamo = relationship("Prestamos", back_populates="Bibliotecario")
-
-
-    
-
-    
+ 
