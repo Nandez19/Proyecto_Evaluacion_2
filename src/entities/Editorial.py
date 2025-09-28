@@ -14,6 +14,6 @@ class Editorial(Base):
     Contacto = Column(String, nullable=False) 
 
     #Relaciones
-    Libro = relationship("Libro", back_populates="Editorial")
+    libro = relationship("Libros", back_populates="Editoriales")
 
     

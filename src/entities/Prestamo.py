@@ -3,6 +3,7 @@ from sqlalchemy import Column, Date, DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from Database.conexion import Base
+from sqlalchemy.sql import func
 
 class Prestamo(Base):
     __tablename__ = "Prestamos"
@@ -13,10 +14,10 @@ class Prestamo(Base):
     Estado = Column(String, nullable=False)
 
     #FK
-    Cedula_Bibliotecario = Column(UNIQUEIDENTIFIER, ForeignKey("Bibliotecario.Cedula_Bibliotecario"), nullable=False)
-    Cedula_Usuario = Column(UNIQUEIDENTIFIER, ForeignKey("Usuario.Cedula_Usuario"), nullable=False)
+    Cedula_Bibliotecario = Column(UUID(as_uuid=True), ForeignKey("Bibliotecario.Cedula_Bibliotecario"), nullable=False)
+    Cedula_Usuario = Column(UUID(as_uuid=True), ForeignKey("Usuario.Cedula_Usuario"), nullable=False)
 
     #Relaciones
-    bibliotecario = relationship("Bibliotecario", back_populates="Prestamo")
-    usuario = relationship("Usuario", back_populates="Prestamo")
-    libro = relationship("Libro", back_populates="Prestamo")
+    bibliotecario = relationship("Bibliotecarios", back_populates="Prestamos")
+    usuario = relationship("Usuarios", back_populates="Prestamos")
+    libro = relationship("Libros", back_populates="Prestamos")

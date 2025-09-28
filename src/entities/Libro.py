@@ -19,9 +19,9 @@ class Libro(Base):
     Id_Prestamo = Column(UUID(as_uuid=True), ForeignKey("Prestamo.Id_Prestamo"), nullable=False)
 
     # Relaciones
-    Autor = relationship("Autores", back_populates="Libros")
-    Editorial = relationship("Editoriales", back_populates="Libros")
-    Prestamo = relationship("Prestamos", back_populates="Libros")
+    autor = relationship("Autores", back_populates="Libros")
+    editorial = relationship("Editoriales", back_populates="Libros")
+    prestamo = relationship("Prestamos", back_populates="Libros")
 
 
 

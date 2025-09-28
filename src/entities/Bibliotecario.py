@@ -14,6 +14,5 @@ class Bibliotecarios(Base):
     Edad = Column(String,nullable=False)
 
     #Relaciones
-    auditoria = relationship("Auditoria", back_populates="Bibliotecario")
-    prestamo = relationship("Prestamo", back_populates="Bibliotecario")
+    prestamo = relationship("Prestamos", back_populates="Bibliotecarios")
     
