@@ -15,7 +15,7 @@ class Libro(Base):
     __tablename__ = "Libros"
 
     Id_Libro = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    Codigo_Libro= Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    Codigo_Libro= Column(UUID(as_uuid=True), default=uuid.uuid4, index=True)
     Titulo = Column(String, nullable=False)
     Año = Column(String,nullable=False)
     Precio = Column(Double,nullable=False)

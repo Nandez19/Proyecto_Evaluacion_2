@@ -17,7 +17,7 @@ class Usuario(Base):
     __tablename__ = "Usuarios"
 
     Id_Usuario = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    Cedula_Usuario = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    Cedula_Usuario = Column(UUID(as_uuid=True), default=uuid.uuid4, index=True)
     Nombre = Column(String, index=True, nullable=False)
     Telefono = Column(String)
     Correo = Column(String, unique=True, nullable=False)
