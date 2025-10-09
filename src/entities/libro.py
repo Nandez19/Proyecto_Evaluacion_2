@@ -15,19 +15,19 @@ class Libro(Base):
     __tablename__ = "Libros"
 
     Id_Libro = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    Codigo_Libro= Column(UUID(as_uuid=True), default=uuid.uuid4, index=True)
-    Titulo = Column(String, nullable=False)
-    Año = Column(String,nullable=False)
-    Precio = Column(Double,nullable=False)
+    Codigo_Libro= Column(String, index=True, unique=True)
+    Titulo = Column(String, index=True)
+    Año = Column(String,index=True)
+    Precio = Column(Double,index=True)
 
     #Fk
-    Id_Autor = Column(UUID(as_uuid=True), ForeignKey("Autores.Id_Autor"), nullable=False)
-    Id_Editorial = Column(UUID(as_uuid=True), ForeignKey("Editoriales.Id_Editorial"), nullable=False)
-    Id_Prestamo = Column(UUID(as_uuid=True), ForeignKey("Prestamos.Id_Prestamo"), nullable=False)
+    Id_Autor = Column(UUID(as_uuid=True), ForeignKey("Autores.Id_Autor"), index=True)
+    Id_Editorial = Column(UUID(as_uuid=True), ForeignKey("Editoriales.Id_Editorial"), index=True)
+    Id_Prestamo = Column(UUID(as_uuid=True), ForeignKey("Prestamos.Id_Prestamo"), index=True)
 
     # Campos de auditoría
-    Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_usuario"), index=True)
-    Id_usuario_actualizacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_usuario"), index=True)
+    Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)
+    Id_usuario_actualizacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)
     Fecha_creacion = Column(DateTime, index=True)
     Fecha_actualizacion = Column(DateTime, index=True)
 
