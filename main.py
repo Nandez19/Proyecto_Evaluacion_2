@@ -5,6 +5,9 @@ from Database.conexion import *
 from fastapi import FastAPI
 import uvicorn   
 
+from src.routers import auth, Autores, Bibliotecarios, Editoriales, Libros, Prestamos
+
+
 app = FastAPI(
     title="API Biblioteca",
     version="1.0.0",
@@ -18,6 +21,14 @@ app = FastAPI(
             "description": "CRUD para gestionar los préstamos de libros. Permite registrar, consultar, actualizar y finalizar préstamos realizados por los usuarios."}
     ]
 )
+
+app.include_router(auth.router)
+app.include_router(Autores.router)
+app.include_router(Bibliotecarios.router)
+app.include_router(Editoriales.router)
+app.include_router(Libros.router)
+app.include_router(Prestamos.router)
+
 
 # Se crean las tablas al ejecutar el servidor
 @app.on_event("startup")

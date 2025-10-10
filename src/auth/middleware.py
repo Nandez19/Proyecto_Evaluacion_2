@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.auth.jwt_handler import verify_token
 from src.controller.auth_controller import get_user_by_id
-from src.shemas.auth import UserResponse
+from src.schemas.auth import UserResponse
 
 # OAuth2 scheme para extraer el token del header Authorization
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")

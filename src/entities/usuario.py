@@ -5,7 +5,7 @@ from sqlalchemy import Column, DateTime, ForeignKey, String, Boolean
 from sqlalchemy.dialects.postgresql import UUID
 
 
-from database.conexion import Base
+from Database.conexion import Base
 
 
 

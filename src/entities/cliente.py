@@ -4,7 +4,7 @@ from sqlalchemy import Column, String, ForeignKey, DateTime
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
-from database.conexion import Base
+from Database.conexion import Base
  
 class Cliente(Base):
     """

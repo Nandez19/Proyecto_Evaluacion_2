@@ -59,7 +59,7 @@ def get_user_by_email(db: Session, correo: str) -> Optional[Usuario]:
 def get_user_by_id(db: Session, user_id: UUID) -> Optional[Usuario]:
     return db.query(Usuario).filter(Usuario.Id_Usuario == user_id).first()
 
-def aunthenticate_user(db: Session, username: str, password: str) -> Optional[Usuario]:
+def authenticate_user(db: Session, username: str, password: str) -> Optional[Usuario]:
     user = get_user_by_username(db, username)
     if not user:
         return None
