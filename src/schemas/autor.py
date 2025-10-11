@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class AutorBase(BaseModel):
 
-    Id_Autor:str
+    #Id_Autor:Optional[str] = None
     Cedula_Autor: str
     Nombre: str
     Telefono: Optional[str] = None

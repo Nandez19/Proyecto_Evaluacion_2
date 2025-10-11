@@ -10,7 +10,7 @@ class Cliente(Base):
     """
     Modelo de cliente (quien realiza el prestamo)
     """
-    __tablename__ = "clientes"
+    __tablename__ = "Clientes"
     Id_Cliente = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     Cedula_Cliente = Column(String, unique=True)
     Nombre = Column(String, index=True)
@@ -25,4 +25,4 @@ class Cliente(Base):
     Fecha_actualizacion = Column(DateTime, index=True)
 
      # Relaciones
-    Prestamo = relationship("Prestamos", back_populates="Cliente")
+    prestamos = relationship("Prestamo", back_populates="cliente")

@@ -5,15 +5,15 @@ from uuid import UUID
 from datetime import datetime
 
 from Database.conexion import get_db
-from src.schemas.prestamo import prestamoCreate, prestamoResponse
+from src.schemas.prestamo import PrestamoCreate, PrestamoResponse
 import src.controller.prestamo as prestamo_controller
 
 router = APIRouter(prefix="/prestamos", tags=["Préstamos"])
 
 
 # ✅ Crear un nuevo préstamo
-@router.post("/prestamos/", response_model=prestamoResponse)
-def create_prestamo(prestamo: prestamoCreate, db: Session = Depends(get_db)):
+@router.post("/prestamos/", response_model=PrestamoResponse)
+def create_prestamo(prestamo: PrestamoCreate, db: Session = Depends(get_db)):
     nuevo_prestamo = prestamo_controller.create_prestamo(db=db, prestamo_data=prestamo)
 
     if not nuevo_prestamo:
@@ -34,7 +34,7 @@ def create_prestamo(prestamo: prestamoCreate, db: Session = Depends(get_db)):
 
 
 # ✅ Obtener todos los préstamos
-@router.get("/prestamos/", response_model=list[prestamoResponse])
+@router.get("/prestamos/", response_model=list[PrestamoResponse])
 def get_all_prestamos(db: Session = Depends(get_db)):
     prestamos = prestamo_controller.get_prestamos(db)
 
@@ -59,7 +59,7 @@ def get_all_prestamos(db: Session = Depends(get_db)):
 
 
 # ✅ Obtener un préstamo por ID
-@router.get("/prestamos/{prestamo_id}", response_model=prestamoResponse)
+@router.get("/prestamos/{prestamo_id}", response_model=PrestamoResponse)
 def get_prestamo(prestamo_id: UUID, db: Session = Depends(get_db)):
     prestamo = prestamo_controller.get_prestamo(db, prestamo_id)
 
@@ -81,8 +81,8 @@ def get_prestamo(prestamo_id: UUID, db: Session = Depends(get_db)):
 
 
 # ✅ Actualizar un préstamo
-@router.put("/prestamos/{prestamo_id}", response_model=prestamoResponse)
-def update_prestamo(prestamo_id: UUID, datos: prestamoCreate, db: Session = Depends(get_db)):
+@router.put("/prestamos/{prestamo_id}", response_model=PrestamoResponse)
+def update_prestamo(prestamo_id: UUID, datos: PrestamoCreate, db: Session = Depends(get_db)):
     prestamo = prestamo_controller.get_prestamo(db, prestamo_id)
 
     if not prestamo:
@@ -111,7 +111,7 @@ def update_prestamo(prestamo_id: UUID, datos: prestamoCreate, db: Session = Depe
 
 
 # ✅ Eliminar un préstamo
-@router.delete("/prestamos/{prestamo_id}", response_model=prestamoResponse)
+@router.delete("/prestamos/{prestamo_id}", response_model=PrestamoResponse)
 def delete_prestamo(prestamo_id: UUID, db: Session = Depends(get_db)):
     prestamo = prestamo_controller.delete_prestamo(db, prestamo_id)
 

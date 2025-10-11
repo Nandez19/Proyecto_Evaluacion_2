@@ -24,11 +24,11 @@ def create_autor(autor: AutorCreate, db: Session = Depends(get_db)) -> JSONRespo
             content={
                 "detail": "Autor creado correctamente",
                 "Cuerpo de la respuesta": {
-                    "ID del Autor": str(autor_creado.Id_Autor),
-                    "Cédula": autor_creado.Cedula_Autor,
-                    "Nombre": autor_creado.Nombre,
-                    "Teléfono": autor_creado.Telefono,
-                    "Edad": autor_creado.Edad,
+                    #"ID del Autor": str(autor.Id_Autor),
+                    "Cédula": autor.Cedula_Autor,
+                    "Nombre": autor.Nombre,
+                    "Teléfono": autor.Telefono,
+                    "Edad": autor.Edad,
                 },
             },
         )
@@ -74,11 +74,11 @@ def update_autor(autor_id: UUID, autor: AutorCreate, db: Session = Depends(get_d
             content={
                 "detail": "Autor actualizado correctamente",
                 "data": {
-                    "ID del Autor": str(autor_actualizado.Id_Autor),
-                    "Cédula": autor_actualizado.Cedula_Autor,
-                    "Nombre": autor_actualizado.Nombre,
-                    "Teléfono": autor_actualizado.Telefono,
-                    "Edad": autor_actualizado.Edad,
+                    #"ID del Autor": str(autor.Id_Autor),
+                    "Cédula": autor.Cedula_Autor,
+                    "Nombre": autor.Nombre,
+                    "Teléfono": autor.Telefono,
+                    "Edad": autor.Edad,
                 },
             },
         )

@@ -29,5 +29,5 @@ class Bibliotecario(Base):
 
     #Relaciones
 
-    Prestamo = relationship("Prestamos", back_populates="Bibliotecario")
+    prestamos = relationship("Prestamo", back_populates="bibliotecario")
  

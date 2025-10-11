@@ -27,4 +27,4 @@ class Editorial(Base):
     Fecha_actualizacion = Column(DateTime, index=True)
 
     #Relaciones
-    libro = relationship("Libros", back_populates="Editoriales")
+    libros = relationship("Libro", back_populates="editorial")

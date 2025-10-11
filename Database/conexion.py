@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 # Configuración de la base de datos
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://neondb_owner:npg_dI8rEHxQ3ynj@ep-blue-wave-adlftsxx-pooler.c-2.us-east-1.aws.neon.tech/Biblioteca?sslmode=require&channel_binding=require",
+    "postgresql://neondb_owner:npg_QCIvVjW5h4dm@ep-spring-moon-adekwqi6-pooler.c-2.us-east-1.aws.neon.tech/DB_BIBLIOTECA?sslmode=require&channel_binding=require",
 )
 
 engine = create_engine(

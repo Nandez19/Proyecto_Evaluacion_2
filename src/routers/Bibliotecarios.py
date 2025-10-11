@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from Database.conexion import get_db
-from src.schemas.bibliotecario import bibliotecarioCreate, bibliotecarioResponse
+from src.schemas.bibliotecario import BibliotecarioCreate, BibliotecarioResponse
 from src.controller import bibliotecario as bibliotecario_controller
 
 router = APIRouter(prefix="/bibliotecarios", tags=["Bibliotecarios"])
@@ -11,8 +11,8 @@ router = APIRouter(prefix="/bibliotecarios", tags=["Bibliotecarios"])
 # ==========================================================
 # Crear un bibliotecario
 # ==========================================================
-@router.post("/bibliotecarios/", response_model=bibliotecarioResponse)
-def create_bibliotecario(biblio: bibliotecarioCreate, db: Session = Depends(get_db)) -> JSONResponse:
+@router.post("/bibliotecarios/", response_model=BibliotecarioResponse)
+def create_bibliotecario(biblio: BibliotecarioCreate, db: Session = Depends(get_db)) -> JSONResponse:
     db_biblio = bibliotecario_controller.create_bibliotecario(db, biblio)
 
     if db_biblio is None:
@@ -23,10 +23,10 @@ def create_bibliotecario(biblio: bibliotecarioCreate, db: Session = Depends(get_
         content={
             "detail": "Bibliotecario creado correctamente",
             "data": {
-                "Cedula del Bibliotecario": db_biblio.Cedula_Bibliotecario,
-                "Nombre": db_biblio.Nombre,
-                "Teléfono": db_biblio.Telefono,
-                "Edad": db_biblio.Edad,
+                "Cedula del Bibliotecario": biblio.Cedula_Bibliotecario,
+                "Nombre": biblio.Nombre,
+                "Teléfono": biblio.Telefono,
+                "Edad": biblio.Edad,
             },
         },
     )
@@ -35,7 +35,7 @@ def create_bibliotecario(biblio: bibliotecarioCreate, db: Session = Depends(get_
 # ==========================================================
 # Obtener todos los bibliotecarios
 # ==========================================================
-@router.get("/bibliotecarios/", response_model=list[bibliotecarioResponse])
+@router.get("/bibliotecarios/", response_model=list[BibliotecarioResponse])
 def read_all_bibliotecarios(db: Session = Depends(get_db)):
     db_biblios = bibliotecario_controller.get_bibliotecarios(db)
 
@@ -48,7 +48,7 @@ def read_all_bibliotecarios(db: Session = Depends(get_db)):
 # ==========================================================
 # Obtener un bibliotecario por ID
 # ==========================================================
-@router.get("/bibliotecarios/{biblio_id}", response_model=bibliotecarioResponse)
+@router.get("/bibliotecarios/{biblio_id}", response_model=BibliotecarioResponse)
 def read_one_bibliotecario(biblio_id: str, db: Session = Depends(get_db)):
     db_biblio = bibliotecario_controller.get_bibliotecario(db, biblio_id)
 
@@ -72,8 +72,8 @@ def read_one_bibliotecario(biblio_id: str, db: Session = Depends(get_db)):
 # ==========================================================
 # Actualizar un bibliotecario
 # ==========================================================
-@router.put("/bibliotecarios/{biblio_id}", response_model=bibliotecarioResponse)
-def update_bibliotecario(biblio_id: str, biblio: bibliotecarioCreate, db: Session = Depends(get_db)):
+@router.put("/bibliotecarios/{biblio_id}", response_model=BibliotecarioResponse)
+def update_bibliotecario(biblio_id: str, biblio: BibliotecarioCreate, db: Session = Depends(get_db)):
     db_biblio = bibliotecario_controller.update_bibliotecario(db, biblio_id, biblio)
 
     if db_biblio is None:
@@ -84,10 +84,10 @@ def update_bibliotecario(biblio_id: str, biblio: bibliotecarioCreate, db: Sessio
         content={
             "detail": "Bibliotecario actualizado correctamente",
             "data": {
-                "Cedula del Bibliotecario": db_biblio.Cedula_Bibliotecario,
-                "Nombre": db_biblio.Nombre,
-                "Teléfono": db_biblio.Telefono,
-                "Edad": db_biblio.Edad,
+                "Cedula del Bibliotecario": biblio.Cedula_Bibliotecario,
+                "Nombre": biblio.Nombre,
+                "Teléfono": biblio.Telefono,
+                "Edad": biblio.Edad,
             },
         },
     )
@@ -96,7 +96,7 @@ def update_bibliotecario(biblio_id: str, biblio: bibliotecarioCreate, db: Sessio
 # ==========================================================
 # Eliminar un bibliotecario
 # ==========================================================
-@router.delete("/bibliotecarios/{biblio_id}", response_model=bibliotecarioResponse)
+@router.delete("/bibliotecarios/{biblio_id}", response_model=BibliotecarioResponse)
 def delete_bibliotecario(biblio_id: str, db: Session = Depends(get_db)):
     db_biblio = bibliotecario_controller.delete_bibliotecario(db, biblio_id)
 

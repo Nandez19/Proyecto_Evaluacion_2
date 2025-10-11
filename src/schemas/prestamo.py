@@ -10,7 +10,7 @@ class PrestamoBase(BaseModel):
     Fecha_Devolucion: Optional[datetime] = None
     Estado: str
     Id_Bibliotecario: UUID
-    Id_Usuario: UUID
+    Id_Cliente: UUID
 
 
 class PrestamoCreate(PrestamoBase):

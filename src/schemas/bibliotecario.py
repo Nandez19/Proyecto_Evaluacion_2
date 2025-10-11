@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 class BibliotecarioBase(BaseModel):
 
-    Id_Bibliotecario:str
+    #Id_Bibliotecario:str
     Cedula_Bibliotecario: str
     Nombre: str
     Telefono: Optional[str] = None

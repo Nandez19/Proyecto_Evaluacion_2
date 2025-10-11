@@ -3,15 +3,15 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from Database.conexion import get_db
-from src.schemas.libro import libroCreate, libroResponse
+from src.schemas.libro import LibroCreate, LibroResponse
 import src.controller.libro as libro_controller
 
 router = APIRouter(prefix="/libros", tags=["Libros"])
 
 
 # ✅ Crear un nuevo libro
-@router.post("/libros/", response_model=libroResponse)
-def create_libro(libro: libroCreate, db: Session = Depends(get_db)):
+@router.post("/libros/", response_model=LibroResponse)
+def create_libro(libro: LibroCreate, db: Session = Depends(get_db)):
     nuevo_libro = libro_controller.create_libro(db=db, libro=libro)
     if not nuevo_libro:
         raise HTTPException(status_code=400, detail="Error al crear el libro")
@@ -30,7 +30,7 @@ def create_libro(libro: libroCreate, db: Session = Depends(get_db)):
 
 
 # ✅ Obtener todos los libros
-@router.get("/libros/", response_model=list[libroResponse])
+@router.get("/libros/", response_model=list[LibroResponse])
 def get_all_libros(db: Session = Depends(get_db)):
     libros = libro_controller.get_all_libros(db)
     if not libros:
@@ -39,7 +39,7 @@ def get_all_libros(db: Session = Depends(get_db)):
 
 
 # ✅ Obtener un libro por ID
-@router.get("/libros/{libro_id}", response_model=libroResponse)
+@router.get("/libros/{libro_id}", response_model=LibroResponse)
 def get_libro(libro_id: str, db: Session = Depends(get_db)):
     libro = libro_controller.get_libro(db, libro_id)
     if not libro:
@@ -60,8 +60,8 @@ def get_libro(libro_id: str, db: Session = Depends(get_db)):
 
 
 # ✅ Actualizar un libro
-@router.put("/libros/{libro_id}", response_model=libroResponse)
-def update_libro(libro_id: str, libro: libroCreate, db: Session = Depends(get_db)):
+@router.put("/libros/{libro_id}", response_model=LibroResponse)
+def update_libro(libro_id: str, libro: LibroCreate, db: Session = Depends(get_db)):
     libro_actualizado = libro_controller.update_libro(db, libro_id, libro)
     if not libro_actualizado:
         raise HTTPException(status_code=404, detail="Libro no encontrado")
@@ -79,7 +79,7 @@ def update_libro(libro_id: str, libro: libroCreate, db: Session = Depends(get_db
 
 
 # ✅ Eliminar un libro
-@router.delete("/libros/{libro_id}", response_model=libroResponse)
+@router.delete("/libros/{libro_id}", response_model=LibroResponse)
 def delete_libro(libro_id: str, db: Session = Depends(get_db)):
     libro_eliminado = libro_controller.delete_libro(db, libro_id)
     if not libro_eliminado:

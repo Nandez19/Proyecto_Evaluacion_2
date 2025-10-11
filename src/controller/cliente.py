@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 
-from src.entities.cliente import Cliente as cliente
+from src.entities.cliente import Cliente 
 
 
-def create_cliente(db: Session, cliente: cliente):
-    new_cliente = cliente(
-        Id_Cliente=str(cliente.Id_Cliente),
+def create_cliente(db: Session, cliente: Cliente):
+    new_cliente = Cliente(
+        #Id_Cliente=str(cliente.Id_Cliente),
         Cedula_Cliente=cliente.Cedula_Cliente,
         Nombre=cliente.Nombre,
         Telefono=cliente.Telefono,
@@ -19,20 +19,20 @@ def create_cliente(db: Session, cliente: cliente):
 
 def get_cliente(db: Session, cliente_id: int):
     return (
-        db.query(cliente)
-        .filter(cliente.Id_Cliente == cliente_id)
+        db.query(Cliente)
+        .filter(Cliente.Id_Cliente == cliente_id)
         .first()
     )
 
 
 def get_clientes(db: Session):
-    return db.query(cliente).all()
+    return db.query(Cliente).all()
 
 
 def delete_cliente(db: Session, cliente_id: int):
     db_cliente = (
-        db.query(cliente)
-        .filter(cliente.Id_Cliente == cliente_id)
+        db.query(Cliente)
+        .filter(Cliente.Id_Cliente == cliente_id)
         .first()
     )
     if db_cliente:

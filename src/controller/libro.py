@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 
-from src.entities.libro import Libro as libro
+from src.entities.libro import Libro 
 
 
-def create_libro(db: Session, libro: libro):
-    new_libro = libro(
-        Id_Libro=str(libro.Id_Libro),
+def create_libro(db: Session, libro: Libro):
+    new_libro = Libro(
+        #Id_Libro=str(libro.Id_Libro),
         Codigo_Libro=libro.Codigo_Libro,
         Titulo=libro.Titulo,
         Año=libro.Año,
@@ -22,20 +22,20 @@ def create_libro(db: Session, libro: libro):
 
 def get_libro(db: Session, libro_id: int):
     return (
-        db.query(libro)
-        .filter(libro.Id_Libro == libro_id)
+        db.query(Libro)
+        .filter(Libro.Id_Libro == libro_id)
         .first()
     )
 
 
 def get_libros(db: Session):
-    return db.query(libro).all()
+    return db.query(Libro).all()
 
 
 def delete_libro(db: Session, libro_id: int):
     db_libro = (
-        db.query(libro)
-        .filter(libro.Id_Libro == libro_id)
+        db.query(Libro)
+        .filter(Libro.Id_Libro == libro_id)
         .first()
     )
     if db_libro:

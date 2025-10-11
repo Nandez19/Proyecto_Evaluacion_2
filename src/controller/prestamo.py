@@ -1,16 +1,16 @@
 from sqlalchemy.orm import Session
 
-from src.entities.prestamo import Prestamo as prestamo
+from src.entities.prestamo import Prestamo 
 
 
-def create_prestamo(db: Session, prestamo: prestamo):
-    new_prestamo = prestamo(
-        Id_Prestamo=str(prestamo.Id_Prestamo),
+def create_prestamo(db: Session, prestamo: Prestamo):
+    new_prestamo = Prestamo(
+        #Id_Prestamo=str(prestamo.Id_Prestamo),
         Fecha_Prestamo=prestamo.Fecha_Prestamo,
         Fecha_Devolucion=prestamo.Fecha_Devolucion,
         Estado=prestamo.Estado,
         Id_Bilbiotecario=str(prestamo.Id_Bibliotecario),
-        Id_Usuario=str(prestamo.Id_Usuario)
+        Id_Cliente=str(prestamo.Id_Cliente)
     )
     db.add(new_prestamo)
     db.commit()
@@ -20,20 +20,20 @@ def create_prestamo(db: Session, prestamo: prestamo):
 
 def get_prestamo(db: Session, prestamo_id: int):
     return (
-        db.query(prestamo)
-        .filter(prestamo.Id_Prestamo == prestamo_id)
+        db.query(Prestamo)
+        .filter(Prestamo.Id_Prestamo == prestamo_id)
         .first()
     )
 
 
 def get_prestamos(db: Session):
-    return db.query(prestamo).all()
+    return db.query(Prestamo).all()
 
 
 def delete_prestamo(db: Session, prestamo_id: int):
     db_prestamo = (
-        db.query(prestamo)
-        .filter(prestamo.Id_Prestamo == prestamo_id)
+        db.query(Prestamo)
+        .filter(Prestamo.Id_Prestamo == prestamo_id)
         .first()
     )
     if db_prestamo:

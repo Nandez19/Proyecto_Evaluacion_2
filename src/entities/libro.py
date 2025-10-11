@@ -32,6 +32,6 @@ class Libro(Base):
     Fecha_actualizacion = Column(DateTime, index=True)
 
     # Relaciones
-    autor = relationship("Autores", back_populates="Libros")
-    editorial = relationship("Editoriales", back_populates="Libros")
-    prestamo = relationship("Prestamos", back_populates="Libros")
+    autor = relationship("Autor", back_populates="libros")
+    editorial = relationship("Editorial", back_populates="libros")
+    prestamos = relationship("Prestamo", back_populates="libro")

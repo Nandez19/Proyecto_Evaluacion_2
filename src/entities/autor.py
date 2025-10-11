@@ -28,5 +28,5 @@ class Autor(Base):
     Fecha_actualizacion = Column(DateTime, index=True)
 
     # Relaciones
-    libros = relationship("Libros", back_populates="Autor")  
+    libros = relationship("Libro", back_populates="autor")  
 

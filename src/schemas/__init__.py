@@ -1,18 +1,18 @@
 from .autor import AutorCreate, AutorResponse
-from .bibliotecario import bibliotecarioCreate, bibliotecarioResponse
-from .editorial import editorialCreate, editorialResponse
-from .libro import libroCreate, libroResponse
-from .prestamo import prestamoCreate, prestamoResponse
+from .bibliotecario import BibliotecarioCreate, BibliotecarioResponse
+from .editorial import EditorialCreate, EditorialResponse
+from .libro import LibroCreate, LibroResponse
+from .prestamo import PrestamoCreate, PrestamoResponse
 
 __all__ = [
     "AutorCreate",
     "AutorResponse",
-    "bibliotecarioCreate",
-    "bibliotecarioResponse",
-    "editorialCreate",
-    "editorialResponse",
-    "libroCreate",
-    "libroResponse",
-    "prestamoCreate",
-    "prestamoResponse"
+    "BibliotecarioCreate",
+    "BibliotecarioResponse",
+    "EditorialCreate",
+    "EditorialResponse",
+    "LibroCreate",
+    "LibroResponse",
+    "PrestamoCreate",
+    "PrestamoResponse"
 ]

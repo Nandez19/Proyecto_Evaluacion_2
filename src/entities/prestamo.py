@@ -22,7 +22,7 @@ class Prestamo(Base):
 
     #FK
     Id_Bibliotecario = Column(UUID(as_uuid=True), ForeignKey("Bibliotecarios.Id_Bibliotecario"), index=True)
-    Id_Usuario = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)
+    Id_Cliente = Column(UUID(as_uuid=True), ForeignKey("Clientes.Id_Cliente"), index=True)
    
    # Campos de auditoría
     Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)
@@ -31,6 +31,6 @@ class Prestamo(Base):
     Fecha_actualizacion = Column(DateTime, index=True)
 
     #Relaciones
-    Bibliotecario = relationship("Bibliotecario", back_populates="Prestamo")
-    Usuario = relationship("Usuario", back_populates="Prestamo")
-    Libro = relationship("Libro", back_populates="Prestamo")
+    bibliotecario = relationship("Bibliotecario", back_populates="prestamos")
+    cliente = relationship("Cliente", back_populates="prestamos")
+    libro = relationship("Libro", back_populates="prestamos")
