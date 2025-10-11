@@ -11,28 +11,26 @@ from src.auth.jwt_handler import verify_token
 from src.controller.auth_controller import get_user_by_id
 from src.schemas.auth import UserResponse
 
-# OAuth2 scheme para extraer el token del header Authorization
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
-
+# ✅ El tokenUrl DEBE comenzar con "/"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+    token: str = Depends(oauth2_scheme),
+    db: Session = Depends(get_db)
 ) -> UserResponse:
-    """
-    Dependency para obtener el usuario actual desde el token JWT.
-
-    Args:
-        token: Token JWT
-        db: Sesión de base de datos
-
-    Returns:
-        UserResponse: Usuario actual
-
-    Raises:
-        HTTPException: Si el token es inválido o el usuario no existe
-    """
+    # Verificar token
     token_data = verify_token(token)
-    user = get_user_by_id(db, token_data["user_id"])
+    user_id = token_data.get("user_id")
+
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token inválido o sin ID de usuario",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    # Buscar usuario en la base de datos
+    user = get_user_by_id(db, user_id)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -40,69 +38,55 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    if not user.activo:
+    if not user.Activo:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario inactivo",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    # Retornar datos del usuario autenticado
     return UserResponse(
         Id_Usuario=user.Id_Usuario,
-        Username=user.username,
-        Correo=user.email,
-        Nombre=user.nombre_completo,
-        Rol=user.rol,
-        Fecha_creacion=user.fecha_creacion,
-        Fecha_actualizacion=user.fecha_actualizacion,
-        Activo=user.activo,
+        Username=user.Username,
+        Correo=user.Correo,
+        Telefono=user.Telefono,
+        Nombre=user.Nombre,
+        Rol=user.Rol,
+        Fecha_creacion=user.Fecha_creacion,
+        Fecha_actualizacion=user.Fecha_actualizacion,
+        Activo=user.Activo,
     )
 
 
 def get_current_active_user(
     current_user: UserResponse = Depends(get_current_user),
 ) -> UserResponse:
-    """
-    Dependency para obtener el usuario actual activo.
-
-    Args:
-        current_user: Usuario actual
-
-    Returns:
-        UserResponse: Usuario actual activo
-    """
-    if not current_user.activo:
+    """Verifica si el usuario actual está activo"""
+    if not current_user.Activo:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Usuario inactivo"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Usuario inactivo"
         )
     return current_user
 
 
 def require_role(required_role: str):
-    """
-    Factory function para crear un dependency que requiere un rol específico.
-
-    Args:
-        required_role: Rol requerido
-
-    Returns:
-        Dependency function
-    """
-
+    """Dependency para validar roles"""
     def role_checker(
         current_user: UserResponse = Depends(get_current_active_user),
     ) -> UserResponse:
-        if current_user.rol != required_role and current_user.rol != "admin":
+        if current_user.Rol != required_role and current_user.Rol != "admin":
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Se requiere rol '{required_role}' o 'admin'",
             )
         return current_user
-
     return role_checker
 
 
-# Dependencies predefinidos para roles comunes
+# Roles predefinidos
 require_admin = require_role("admin")
-require_medico = require_role("bibliotecario")
-require_enfermera = require_role("cliente")
+require_bibliotecario = require_role("bibliotecario")
+require_cliente = require_role("cliente")
+

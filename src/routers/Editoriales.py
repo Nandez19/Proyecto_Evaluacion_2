@@ -31,7 +31,7 @@ def create_editorial(editorial: EditorialCreate, db: Session = Depends(get_db)):
 # ✅ Obtener todas las editoriales
 @router.get("/editoriales/", response_model=list[EditorialResponse])
 def get_editoriales(db: Session = Depends(get_db)):
-    editoriales = editorial_controller.get_all_editoriales(db)
+    editoriales = editorial_controller.get_editoriales(db)
     if not editoriales:
         raise HTTPException(status_code=404, detail="No hay editoriales registradas")
     return editoriales

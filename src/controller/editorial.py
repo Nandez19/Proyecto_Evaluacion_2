@@ -27,6 +27,21 @@ def get_editorial(db: Session, editorial_id: int):
 def get_editoriales(db: Session):
     return db.query(Editorial).all()
 
+def update_editorial(db: Session, editorial_id: int, editorial: Editorial):
+    db_editorial = (
+        db.query(Editorial)
+        .filter(Editorial.Id_Editorial == editorial_id)
+        .first()
+    )
+    if db_editorial:
+        db_editorial.Nombre = editorial.Nombre
+        db_editorial.Pais = editorial.Pais
+        db_editorial.Contacto = editorial.Contacto
+        db.commit()
+        db.refresh(db_editorial)
+    return db_editorial
+
+
 
 def delete_editorial(db: Session, editorial_id: int):
     db_editorial = (

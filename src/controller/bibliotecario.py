@@ -29,6 +29,21 @@ def get_bibliotecarios(db: Session):
     return db.query(Bibliotecario).all()
 
 
+def update_bibliotecario(db: Session, bibliotecario_id: int, bibliotecario: Bibliotecario):
+    db_bibliotecario = (
+        db.query(Bibliotecario)
+        .filter(Bibliotecario.Id_Bibliotecario == bibliotecario_id)
+        .first()
+    )
+    if db_bibliotecario:
+        db_bibliotecario.Cedula_Bibliotecario = bibliotecario.Cedula_Bibliotecario
+        db_bibliotecario.Nombre = bibliotecario.Nombre
+        db_bibliotecario.Telefono = bibliotecario.Telefono
+        db_bibliotecario.Edad = bibliotecario.Edad
+        db.commit()
+        db.refresh(db_bibliotecario)
+    return db_bibliotecario
+
 def delete_bibliotecario(db: Session, bibliotecario_id: int):
     db_bibliotecario = (
         db.query(Bibliotecario)

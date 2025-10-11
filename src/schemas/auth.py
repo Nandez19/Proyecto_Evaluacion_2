@@ -14,6 +14,7 @@ class UserBase(BaseModel):
 
     Username: str
     Correo: EmailStr
+    Telefono: str
     Nombre: str
     Rol: str = "Usuario"
 

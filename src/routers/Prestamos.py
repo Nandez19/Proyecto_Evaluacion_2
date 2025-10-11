@@ -14,7 +14,7 @@ router = APIRouter(prefix="/prestamos", tags=["Préstamos"])
 # ✅ Crear un nuevo préstamo
 @router.post("/prestamos/", response_model=PrestamoResponse)
 def create_prestamo(prestamo: PrestamoCreate, db: Session = Depends(get_db)):
-    nuevo_prestamo = prestamo_controller.create_prestamo(db=db, prestamo_data=prestamo)
+    nuevo_prestamo = prestamo_controller.create_prestamo(db=db, prestamo=prestamo)
 
     if not nuevo_prestamo:
         raise HTTPException(status_code=400, detail="Error al crear el préstamo")

@@ -1,11 +1,15 @@
+
+import uvicorn   
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import logging
+from src.migrations import print_migration_status, run_migrations
 from sqlalchemy import create_engine, text
 from Database.conexion import DATABASE_URL
 from src.entities import __all__
 from Database.conexion import *
-from fastapi import FastAPI
-import uvicorn   
 
-from src.routers import auth, Autores, Bibliotecarios, Editoriales, Libros, Prestamos
+from src.routers import auth, Autores, Bibliotecarios, Editoriales, Libros, Prestamos, Clientes
 
 
 app = FastAPI(
@@ -13,13 +17,16 @@ app = FastAPI(
     version="1.0.0",
     description="API REST básica para gestión de una biblioteca académica.",
     openapi_tags=[
-        {"name": "Usuarios",
-            "description": "CRUD para gestionar los usuarios registrados en la biblioteca. Permite crear, consultar, actualizar y eliminar usuarios."},
-        {"name": "Libros",
-            "description": "CRUD para administrar los libros disponibles en la biblioteca. Permite agregar, consultar, modificar y eliminar información de libros."},
-        {"name": "Prestamos",
-            "description": "CRUD para gestionar los préstamos de libros. Permite registrar, consultar, actualizar y finalizar préstamos realizados por los usuarios."}
+        
     ]
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir todas las fuentes (orígenes)
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos HTTP (GET, POST, etc.)
+    allow_headers=["*"],  # Permitir todas las cabeceras
 )
 
 app.include_router(auth.router)
@@ -28,7 +35,10 @@ app.include_router(Bibliotecarios.router)
 app.include_router(Editoriales.router)
 app.include_router(Libros.router)
 app.include_router(Prestamos.router)
+app.include_router(Clientes.router)
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Se crean las tablas al ejecutar el servidor
 @app.on_event("startup")
@@ -56,3 +66,17 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+@app.get(
+    "/",
+    summary="Información de la API",
+    description="Endpoint raíz que proporciona información básica sobre la API",
+    tags=["General"]
+)
+def root():
+    return {
+        "message": "Bienvenido a la API de Biblioteca",
+        "version": "1.0.0",
+        "descripcion": "Sistema para gestión de libros, desarrollado por Emmanuel, Santiago y Juan Pablo",
+    }

@@ -32,7 +32,7 @@ def create_libro(libro: LibroCreate, db: Session = Depends(get_db)):
 # ✅ Obtener todos los libros
 @router.get("/libros/", response_model=list[LibroResponse])
 def get_all_libros(db: Session = Depends(get_db)):
-    libros = libro_controller.get_all_libros(db)
+    libros = libro_controller.get_libros(db)
     if not libros:
         raise HTTPException(status_code=404, detail="No hay libros registrados")
     return libros

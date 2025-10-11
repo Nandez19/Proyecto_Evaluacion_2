@@ -32,6 +32,25 @@ def get_libros(db: Session):
     return db.query(Libro).all()
 
 
+def update_libro(db: Session, libro_id: int, libro: Libro):
+    db_libro = (
+        db.query(Libro)
+        .filter(Libro.Id_Libro == libro_id)
+        .first()
+    )
+    if db_libro:
+        db_libro.Codigo_Libro = libro.Codigo_Libro
+        db_libro.Titulo = libro.Titulo
+        db_libro.Año = libro.Año
+        db_libro.Precio = libro.Precio
+        db_libro.Id_Autor = str(libro.Id_Autor)
+        db_libro.Id_Editorial = str(libro.Id_Editorial)
+        db_libro.Id_Prestamo = str(libro.Id_Prestamo)
+        db.commit()
+        db.refresh(db_libro)
+    return db_libro
+
+
 def delete_libro(db: Session, libro_id: int):
     db_libro = (
         db.query(Libro)
