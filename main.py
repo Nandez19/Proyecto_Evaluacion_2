@@ -8,7 +8,6 @@ from sqlalchemy import create_engine, text
 from Database.conexion import DATABASE_URL
 from src.entities import __all__
 from Database.conexion import *
-
 from src.routers import auth, Autores, Bibliotecarios, Editoriales, Libros, Prestamos, Clientes
 
 
@@ -40,13 +39,19 @@ app.include_router(Clientes.router)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 # Se crean las tablas al ejecutar el servidor
 @app.on_event("startup")
 def startup_event():
     create_tables()
+
+
+    #create_initial_users()
+    
     print("✅ Tablas creadas al iniciar FastAPI")
 
     
+
 @app.on_event("shutdown")
 def shutdown_event():
     drop_tables()
