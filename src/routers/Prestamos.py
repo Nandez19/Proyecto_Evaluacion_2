@@ -11,7 +11,7 @@ from src.auth.middleware import get_current_user
 
 router = APIRouter(prefix="/prestamos", tags=["Préstamos"], dependencies=[Depends(get_current_user)])
 
-
+##zzz
 # ✅ Crear un nuevo préstamo
 @router.post("/prestamos/", response_model=PrestamoResponse)
 def create_prestamo(prestamo: PrestamoCreate, db: Session = Depends(get_db)):
