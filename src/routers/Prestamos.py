@@ -9,7 +9,7 @@ from src.schemas.prestamo import PrestamoCreate, PrestamoResponse
 import src.controller.prestamo as prestamo_controller
 from src.auth.middleware import get_current_user
 
-router = APIRouter(prefix="/prestamos", tags=["Préstamos"], dependencies=[Depends(get_current_user)])
+router = APIRouter(prefix="/prestamos", tags=["Prestamos"], dependencies=[Depends(get_current_user)])
 
 
 # ✅ Crear un nuevo préstamo

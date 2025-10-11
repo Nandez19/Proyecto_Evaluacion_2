@@ -7,7 +7,7 @@ from src.schemas.bibliotecario import BibliotecarioCreate, BibliotecarioResponse
 from src.controller import bibliotecario as bibliotecario_controller
 from src.auth.middleware import get_current_user
 
-router = APIRouter(prefix="/bibliotecarios", dependencies=[Depends(get_current_user)] )
+router = APIRouter(prefix="/bibliotecarios", tags=["Bibliotecarios"], dependencies=[Depends(get_current_user)] )
 
 
 
