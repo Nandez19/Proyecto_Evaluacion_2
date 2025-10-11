@@ -6,8 +6,9 @@ from uuid import UUID
 import src.controller.Autor as autor_controller
 from Database.conexion import get_db
 from src.schemas.autor import AutorCreate, AutorResponse
+from src.auth.middleware import get_current_user
 
-router = APIRouter(prefix="/autores", tags=["Autores"])
+router = APIRouter(prefix="/autores", tags=["Autores"],dependencies=[Depends(get_current_user)])
 
 # ============================================================
 # RUTAS PARA AUTORES
