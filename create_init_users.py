@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from Database.conexion import SessionLocal, create_tables
 from src.controller.auth_controller import create_user
-from src.shemas.auth import UserCreate
+from src.schemas.auth import UserCreate
 
 
 def create_initial_users():

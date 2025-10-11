@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.auth.jwt_handler import verify_token
 from src.controller.auth_controller import get_user_by_id
-from src.shemas.auth import UserResponse
+from src.schemas.auth import UserResponse
 
 # OAuth2 scheme para extraer el token del header Authorization
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
@@ -36,15 +36,16 @@ def get_current_user(
         )
 
     return UserResponse(
-        id_usuario=user.id_usuario,
-        username=user.username,
-        email=user.email,
-        nombre_completo=user.nombre_completo,
-        rol=user.rol,
-        fecha_creacion=user.fecha_creacion,
-        fecha_actualizacion=user.fecha_actualizacion,
-        activo=user.activo,
-    )
+    id_usuario=user.id_Usuario,
+    Nombre=user.Nombre,
+    Telefono=user.Telefono,
+    Correo=user.Correo,
+    Rol=user.Rol,
+    fecha_creacion=user.fecha_creacion,
+    fecha_actualizacion=user.fecha_actualizacion,
+    activo=user.activo,
+)
+
 
 
 def get_current_active_user(
@@ -64,7 +65,7 @@ def require_role(required_role: str):
     def role_checker(
         current_user: UserResponse = Depends(get_current_active_user),
     ) -> UserResponse:
-        if current_user.rol != required_role and current_user.rol != "admin":
+        if current_user.Rol != required_role and current_user.Rol != "admin":
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Se requiere rol '{required_role}' o 'admin'",
@@ -75,6 +76,5 @@ def require_role(required_role: str):
 
 
 # Dependencies predefinidos para roles comunes
-require_admin = require_role("admin")
-require_medico = require_role("medico")
-require_enfermera = require_role("enfermera")
+require_Admin = require_role("admin")
+require_Medico = require_role("usuario")
