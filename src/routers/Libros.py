@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.libro import LibroCreate, LibroResponse
 import src.controller.libro as libro_controller
+from src.auth.middleware import get_current_user   
 
-router = APIRouter(prefix="/libros", tags=["Libros"])
+router = APIRouter(prefix="/libros", tags=["Libros"], dependencies=[Depends(get_current_user)])
 
 
 # ✅ Crear un nuevo libro

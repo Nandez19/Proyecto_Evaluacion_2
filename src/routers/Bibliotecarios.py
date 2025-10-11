@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.bibliotecario import BibliotecarioCreate, BibliotecarioResponse
 from src.controller import bibliotecario as bibliotecario_controller
+from src.auth.middleware import get_current_user   
 
-router = APIRouter(prefix="/bibliotecarios", tags=["Bibliotecarios"])
+router = APIRouter(prefix="/bibliotecarios", tags=["Bibliotecarios"], dependencies=[Depends(get_current_user)])
 
 # ==========================================================
 # Crear un bibliotecario

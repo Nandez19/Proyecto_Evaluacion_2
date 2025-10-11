@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.cliente import ClienteCreate, ClienteResponse
 from src.controller import cliente as cliente_controller
+from src.auth.middleware import get_current_user   
 
-router = APIRouter(prefix="/clientes", tags=["Clientes"])
+router = APIRouter(prefix="/clientes", tags=["Clientes"], dependencies=[Depends(get_current_user)])
 
 # ==========================================================
 # Crear un cliente

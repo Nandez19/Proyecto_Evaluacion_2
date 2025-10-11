@@ -23,7 +23,6 @@ class Libro(Base):
     #Fk
     Id_Autor = Column(UUID(as_uuid=True), ForeignKey("Autores.Id_Autor"), index=True)
     Id_Editorial = Column(UUID(as_uuid=True), ForeignKey("Editoriales.Id_Editorial"), index=True)
-    Id_Prestamo = Column(UUID(as_uuid=True), ForeignKey("Prestamos.Id_Prestamo"), index=True)
 
     # Campos de auditoría
     Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)

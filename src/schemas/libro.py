@@ -11,7 +11,6 @@ class LibroBase(BaseModel):
     Precio: Optional[float] = None
     Id_Autor: UUID
     Id_Editorial: UUID
-    Id_Prestamo: UUID
 
 class LibroCreate(LibroBase):
     pass

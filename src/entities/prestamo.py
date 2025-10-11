@@ -23,6 +23,7 @@ class Prestamo(Base):
     #FK
     Id_Bibliotecario = Column(UUID(as_uuid=True), ForeignKey("Bibliotecarios.Id_Bibliotecario"), index=True)
     Id_Cliente = Column(UUID(as_uuid=True), ForeignKey("Clientes.Id_Cliente"), index=True)
+    Id_Libro = Column(UUID(as_uuid=True), ForeignKey("Libros.Id_Libro"), index=True)
    
    # Campos de auditoría
     Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)

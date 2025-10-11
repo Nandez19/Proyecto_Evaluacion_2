@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.editorial import EditorialCreate, EditorialResponse
 import src.controller.editorial as editorial_controller
+from src.auth.middleware import get_current_user   
 
-router = APIRouter(prefix="/editoriales", tags=["Editoriales"])
+router = APIRouter(prefix="/editoriales", tags=["Editoriales"], dependencies=[Depends(get_current_user)])
 
 
 # ✅ Crear una nueva editorial
