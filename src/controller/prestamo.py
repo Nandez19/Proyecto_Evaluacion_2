@@ -10,7 +10,8 @@ def create_prestamo(db: Session, prestamo: Prestamo):
         Fecha_Devolucion=prestamo.Fecha_Devolucion,
         Estado=prestamo.Estado,
         Id_Bibliotecario=str(prestamo.Id_Bibliotecario),
-        Id_Cliente=str(prestamo.Id_Cliente)
+        Id_Cliente=str(prestamo.Id_Cliente),
+        Id_Libro = str(prestamo.Id_Libro)
     )
     db.add(new_prestamo)
     db.commit()

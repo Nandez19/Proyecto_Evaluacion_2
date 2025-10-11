@@ -11,6 +11,7 @@ class PrestamoBase(BaseModel):
     Estado: str
     Id_Bibliotecario: UUID
     Id_Cliente: UUID
+    Id_Libro : UUID
 
 
 class PrestamoCreate(PrestamoBase):
