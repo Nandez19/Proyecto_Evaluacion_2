@@ -27,13 +27,13 @@ def create_user(db: Session, user: UserCreate) -> Usuario:
         raise ValueError("El correo electrónico ya está registrado")
 
     # Crear nuevo usuario
-    Hashed_Password = get_password_hash(user.Password)
+    hashed_password = get_password_hash(user.password)
     db_user = Usuario(
         Id_Usuario = uuid4(),
         Username = user.Username,
         Correo = user.Correo,
         Nombre = user.Nombre,
-        Password_Hash = Hashed_Password,
+        Password_Hash = hashed_password,
         Rol = user.Rol,
         Activo = True,
         Fecha_creacion=datetime.utcnow(),
@@ -59,7 +59,7 @@ def get_user_by_email(db: Session, correo: str) -> Optional[Usuario]:
 def get_user_by_id(db: Session, user_id: UUID) -> Optional[Usuario]:
     return db.query(Usuario).filter(Usuario.Id_Usuario == user_id).first()
 
-def authenticate_user(db: Session, username: str, password: str) -> Optional[Usuario]:
+def authentic_user(db: Session, username: str, password: str) -> Optional[Usuario]:
     user = get_user_by_username(db, username)
     if not user:
         return None

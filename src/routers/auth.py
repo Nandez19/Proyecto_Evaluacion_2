@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from Database.conexion import get_db
 from src.auth.middleware import get_current_user
-from src.controller.auth_controller import authenticate_user, create_user, create_user_token
+from src.controller.auth_controller import authentic_user, create_user, create_user_token
 
 from src.schemas.auth import LoginRequest, LoginResponse, UserCreate, UserResponse
 
@@ -21,14 +21,14 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
         db_user = create_user(db, user)
         return UserResponse(
-            id_usuario=db_user.Cedula_Usuario,
-            Nombre=db_user.Nombre,
-            Telefono=db_user.Telefono,
+            Id_Usuario=db_user.Id_Usuario,
+            Username=db_user.Username,
             Correo=db_user.Correo,
+            Nombre=db_user.Nombre,
             Rol=db_user.Rol,
-            fecha_creacion=db_user.fecha_creacion,
-            fecha_actualizacion=db_user.fecha_actualizacion,
-            activo=db_user.activo,
+            Activo=db_user.Activo,
+            Fecha_creacion=db_user.Fecha_creacion,
+            Fecha_actualizacion = db_user.Fecha_actualizacion
         )
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
@@ -38,7 +38,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
 # ---------------------------
 @router.post("/login", response_model=LoginResponse)
 def login_user(login_data: LoginRequest, db: Session = Depends(get_db)):
-    user = authenticate_user(db, login_data.Correo, login_data.password)
+    user = authentic_user(db, login_data.Username, login_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -51,14 +51,14 @@ def login_user(login_data: LoginRequest, db: Session = Depends(get_db)):
         access_token=access_token,
         token_type="bearer",
         user=UserResponse(
-            id_usuario=user.Cedula_Usuario,
-            Nombre=user.Nombre,
-            Telefono=user.Telefono,
+            Id_Usuario=user.Id_Usuario,
+            Username=user.Username,
             Correo=user.Correo,
+            Nombre=user.Nombre,
             Rol=user.Rol,
-            fecha_creacion=user.fecha_creacion,
-            fecha_actualizacion=user.fecha_actualizacion,
-            activo=user.activo,
+            Activo=user.Activo,
+            Fecha_creacion=user.Fecha_creacion,
+            Fecha_actualizacion = user.Fecha_actualizacion
         ),
     )
 

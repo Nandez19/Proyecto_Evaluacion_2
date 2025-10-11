@@ -40,7 +40,7 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    if not user.activo:
+    if not user.Activo:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario inactivo",
@@ -49,13 +49,13 @@ def get_current_user(
 
     return UserResponse(
         Id_Usuario=user.Id_Usuario,
-        Username=user.username,
-        Correo=user.email,
-        Nombre=user.nombre_completo,
-        Rol=user.rol,
-        Fecha_creacion=user.fecha_creacion,
-        Fecha_actualizacion=user.fecha_actualizacion,
-        Activo=user.activo,
+        Username=user.Username,
+        Correo=user.Correo,
+        Nombre=user.Nombre,
+        Rol=user.Rol,
+        Fecha_creacion=user.Fecha_creacion,
+        Fecha_actualizacion=user.Fecha_creacion,
+        Activo=user.Activo,
     )
 
 
@@ -71,7 +71,7 @@ def get_current_active_user(
     Returns:
         UserResponse: Usuario actual activo
     """
-    if not current_user.activo:
+    if not current_user.Activo:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Usuario inactivo"
         )
@@ -104,5 +104,5 @@ def require_role(required_role: str):
 
 # Dependencies predefinidos para roles comunes
 require_admin = require_role("admin")
-require_medico = require_role("bibliotecario")
-require_enfermera = require_role("cliente")
+require_bibliotecario = require_role("bibliotecario")
+require_cliente = require_role("cliente")
