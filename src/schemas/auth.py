@@ -12,10 +12,10 @@ from pydantic import BaseModel, EmailStr
 class UserBase(BaseModel):
     """Base schema for User with common fields."""
 
-    username: str
-    email: EmailStr
-    nombre_completo: str
-    rol: str = "usuario"  # usuario, admin, medico, enfermera
+    Username: str
+    Correo: EmailStr
+    Nombre: str
+    Rol: str = "Usuario"
 
 
 class UserCreate(UserBase):
@@ -27,10 +27,10 @@ class UserCreate(UserBase):
 class UserResponse(UserBase):
     """Schema for User response."""
 
-    id_usuario: UUID
-    fecha_creacion: Optional[datetime] = None
-    fecha_actualizacion: Optional[datetime] = None
-    activo: bool = True
+    Id_Usuario: UUID
+    Fecha_creacion: Optional[datetime] = None
+    Fecha_actualizacion: Optional[datetime] = None
+    Activo: bool = True
 
     class Config:
         from_attributes = True
@@ -39,7 +39,7 @@ class UserResponse(UserBase):
 class LoginRequest(BaseModel):
     """Schema for login request."""
 
-    username: str
+    Username: str
     password: str
 
 
@@ -54,6 +54,6 @@ class LoginResponse(BaseModel):
 class TokenData(BaseModel):
     """Schema for token data."""
 
-    username: Optional[str] = None
+    Username: Optional[str] = None
     user_id: Optional[UUID] = None
-    rol: Optional[str] = None
+    Rol: Optional[str] = None

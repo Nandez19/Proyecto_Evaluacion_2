@@ -4,23 +4,23 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class editorialBase(BaseModel):
+class EditorialBase(BaseModel):
 
+    Id_Editorial:str
     Nombre: str
-    Pais: str
-    Contacto: str
+    Pais: Optional[str] = None
+    Contacto: Optional[str] = None
 
-
-class editorialCreate(editorialBase):
+class EditorialCreate(EditorialBase):
 
     pass
 
-class editorialResponse(BaseModel):
+class EditorialResponse(EditorialBase):
 
-    Id_Editorial: UUID
-    Nombre: str
-    Pais: str
-    Contacto: str
+    Id_usuario_creacion: Optional[UUID] = None
+    Id_usuario_actualizacion: Optional[UUID] = None
+    Fecha_creacion: Optional[datetime] = None
+    Fecha_actualizacion: Optional[datetime] = None
 
     class Config:
         from_attributes = True
