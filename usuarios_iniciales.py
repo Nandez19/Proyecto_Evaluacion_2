@@ -14,20 +14,28 @@ def create_initial_users():
     try:
         users_to_create = [
             UserCreate(
-                Username="admin",
-                Correo="admin@hospital.com",
+                Username="Pablo",
+                Correo="Nande@hospital.com",
                 Telefono="3258796345",
                 Nombre="Administrador",
-                password="admin123",
+                password="nande123",
                 Rol="admin",
             ),
             UserCreate(
-                Username="bibliotecario",
-                Correo="bibliotecario@example.com",
+                Username="Emmanuel",
+                Correo="Emmanuel@example.com",
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
-                password="biblio123",
+                password="goblin123",
                 Rol="bibliotecario",
+            ),
+            UserCreate(
+                Username="Santiago",
+                Correo="Santiago@example.com",
+                Telefono="3008964725",
+                Nombre="Bibliotecario",
+                password="santi123",
+                Rol="cliente",
             ),
         ]
 
