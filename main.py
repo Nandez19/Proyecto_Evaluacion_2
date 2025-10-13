@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, text
 from Database.conexion import DATABASE_URL
 from src.entities import __all__
 from Database.conexion import *
+from usuarios_iniciales import create_initial_users
 
 from src.routers import auth, Autores, Bibliotecarios, Editoriales, Libros, Prestamos, Clientes
 
@@ -44,6 +45,7 @@ logger = logging.getLogger(__name__)
 @app.on_event("startup")
 def startup_event():
     create_tables()
+    create_initial_users()
     print("✅ Tablas creadas al iniciar FastAPI")
 
     
