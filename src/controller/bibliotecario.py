@@ -1,15 +1,15 @@
 from sqlalchemy.orm import Session
 
-from src.entities.bibliotecario import Bibliotecario 
+from src.entities.bibliotecario import Bibliotecario
 
 
 def create_bibliotecario(db: Session, bibliotecario: Bibliotecario):
     new_bibliotecario = Bibliotecario(
-        #Id_Bibliotecario=str(bibliotecario.Id_Bibliotecario),
+        # Id_Bibliotecario=str(bibliotecario.Id_Bibliotecario),
         Cedula_Bibliotecario=bibliotecario.Cedula_Bibliotecario,
         Nombre=bibliotecario.Nombre,
         Telefono=bibliotecario.Telefono,
-        Edad=bibliotecario.Edad
+        Edad=bibliotecario.Edad,
     )
     db.add(new_bibliotecario)
     db.commit()
@@ -29,7 +29,9 @@ def get_bibliotecarios(db: Session):
     return db.query(Bibliotecario).all()
 
 
-def update_bibliotecario(db: Session, bibliotecario_id: int, bibliotecario: Bibliotecario):
+def update_bibliotecario(
+    db: Session, bibliotecario_id: int, bibliotecario: Bibliotecario
+):
     db_bibliotecario = (
         db.query(Bibliotecario)
         .filter(Bibliotecario.Id_Bibliotecario == bibliotecario_id)
@@ -43,6 +45,7 @@ def update_bibliotecario(db: Session, bibliotecario_id: int, bibliotecario: Bibl
         db.commit()
         db.refresh(db_bibliotecario)
     return db_bibliotecario
+
 
 def delete_bibliotecario(db: Session, bibliotecario_id: int):
     db_bibliotecario = (

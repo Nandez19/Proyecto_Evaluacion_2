@@ -8,25 +8,29 @@ from Database.conexion import Base
 
 
 class Autor(Base):
-
     """
     Modelo de autor
     """
 
     __tablename__ = "Autores"
 
-    Id_Autor = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    Cedula_Autor= Column(String, unique=True, index=True)
+    Id_Autor = Column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True
+    )
+    Cedula_Autor = Column(String, unique=True, index=True)
     Nombre = Column(String, index=True)
     Telefono = Column(String, index=True)
     Edad = Column(String, index=True)
 
-    # Campos de auditoría
-    Id_usuario_creacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)
-    Id_usuario_actualizacion = Column(UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True)
+    """Campos de auditoría"""
+    Id_usuario_creacion = Column(
+        UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True
+    )
+    Id_usuario_actualizacion = Column(
+        UUID(as_uuid=True), ForeignKey("Usuarios.Id_Usuario"), index=True
+    )
     Fecha_creacion = Column(DateTime, index=True)
     Fecha_actualizacion = Column(DateTime, index=True)
 
-    # Relaciones
-    libros = relationship("Libro", back_populates="autor")  
-
+    """Relaciones"""
+    libros = relationship("Libro", back_populates="autor")

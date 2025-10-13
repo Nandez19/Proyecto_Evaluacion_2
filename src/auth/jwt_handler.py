@@ -10,14 +10,16 @@ import jwt
 from fastapi import HTTPException, status
 from passlib.context import CryptContext
 
-# Configuración de seguridad
+"""Configuracion de seguridad"""
+
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "tu-clave-secreta-super-segura-cambiar-en-produccion"
 )
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# Contexto para hashing de contraseñas
+"""hashing de contraseñas"""
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

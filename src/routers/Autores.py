@@ -6,12 +6,16 @@ from uuid import UUID
 import src.controller.Autor as autor_controller
 from Database.conexion import get_db
 from src.schemas.autor import AutorCreate, AutorResponse
-from src.auth.middleware import get_current_user   
-router = APIRouter(prefix="/autores", tags=["Autores"], dependencies=[Depends(get_current_user)])
+from src.auth.middleware import get_current_user
 
-# ============================================================
-# RUTAS PARA AUTORES
-# ============================================================
+router = APIRouter(
+    prefix="/autores", tags=["Autores"], dependencies=[Depends(get_current_user)]
+)
+
+"""
+RUTAS PARA AUTORES
+"""
+
 
 @router.post("/autores/", response_model=AutorResponse, tags=["Autores"])
 def create_autor(autor: AutorCreate, db: Session = Depends(get_db)) -> JSONResponse:
@@ -24,7 +28,7 @@ def create_autor(autor: AutorCreate, db: Session = Depends(get_db)) -> JSONRespo
             content={
                 "detail": "Autor creado correctamente",
                 "Cuerpo de la respuesta": {
-                    #"ID del Autor": str(autor.Id_Autor),
+                    # "ID del Autor": str(autor.Id_Autor),
                     "Cédula": autor.Cedula_Autor,
                     "Nombre": autor.Nombre,
                     "Teléfono": autor.Telefono,
@@ -65,7 +69,9 @@ def read_one_autor(autor_id: UUID, db: Session = Depends(get_db)):
 
 @router.put("/autores/{autor_id}", response_model=AutorResponse, tags=["Autores"])
 def update_autor(autor_id: UUID, autor: AutorCreate, db: Session = Depends(get_db)):
-    autor_actualizado = autor_controller.update_autor(db, autor_id=autor_id, autor=autor)
+    autor_actualizado = autor_controller.update_autor(
+        db, autor_id=autor_id, autor=autor
+    )
     if autor_actualizado is None:
         raise HTTPException(status_code=404, detail="Autor no encontrado")
     else:
@@ -74,7 +80,7 @@ def update_autor(autor_id: UUID, autor: AutorCreate, db: Session = Depends(get_d
             content={
                 "detail": "Autor actualizado correctamente",
                 "data": {
-                    #"ID del Autor": str(autor.Id_Autor),
+                    # "ID del Autor": str(autor.Id_Autor),
                     "Cédula": autor.Cedula_Autor,
                     "Nombre": autor.Nombre,
                     "Teléfono": autor.Telefono,

@@ -11,14 +11,14 @@ from src.auth.jwt_handler import verify_token
 from src.controller.auth_controller import get_user_by_id
 from src.schemas.auth import UserResponse
 
-# ✅ El tokenUrl DEBE comenzar con "/"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
+
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
-    db: Session = Depends(get_db)
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ) -> UserResponse:
-    # Verificar token
+    """Verificar token"""
+
     token_data = verify_token(token)
     user_id = token_data.get("user_id")
 
@@ -29,7 +29,8 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Buscar usuario en la base de datos
+    """Buscar usuario en la base de datos"""
+
     user = get_user_by_id(db, user_id)
     if user is None:
         raise HTTPException(
@@ -45,7 +46,8 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Retornar datos del usuario autenticado
+    """Retornar datos del usuario autenticado"""
+
     return UserResponse(
         Id_Usuario=user.Id_Usuario,
         Username=user.Username,
@@ -65,14 +67,14 @@ def get_current_active_user(
     """Verifica si el usuario actual está activo"""
     if not current_user.Activo:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Usuario inactivo"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Usuario inactivo"
         )
     return current_user
 
 
 def require_role(required_role: str):
     """Dependency para validar roles"""
+
     def role_checker(
         current_user: UserResponse = Depends(get_current_active_user),
     ) -> UserResponse:
@@ -82,11 +84,12 @@ def require_role(required_role: str):
                 detail=f"Se requiere rol '{required_role}' o 'admin'",
             )
         return current_user
+
     return role_checker
 
 
-# Roles predefinidos
+"""Roles predefinidos"""
+
 require_admin = require_role("admin")
 require_bibliotecario = require_role("bibliotecario")
 require_cliente = require_role("cliente")
-

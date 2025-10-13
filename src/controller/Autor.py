@@ -1,15 +1,15 @@
 from sqlalchemy.orm import Session
 
-from src.entities.autor import Autor 
+from src.entities.autor import Autor
 
 
-def create_autor(db: Session, autor:Autor):
+def create_autor(db: Session, autor: Autor):
     new_autor = Autor(
         ##Id_Autor=str(autor.Id_Autor),
         Cedula_Autor=autor.Cedula_Autor,
         Nombre=autor.Nombre,
         Telefono=autor.Telefono,
-        Edad=autor.Edad
+        Edad=autor.Edad,
     )
     db.add(new_autor)
     db.commit()
@@ -18,22 +18,15 @@ def create_autor(db: Session, autor:Autor):
 
 
 def get_autor(db: Session, autor_id: int):
-    return (
-        db.query(Autor)
-        .filter(Autor.Id_Autor == autor_id)
-        .first()
-    )
+    return db.query(Autor).filter(Autor.Id_Autor == autor_id).first()
 
 
 def get_autores(db: Session):
     return db.query(Autor).all()
 
+
 def update_autor(db: Session, autor_id: int, autor: Autor):
-    db_autor = (
-        db.query(Autor)
-        .filter(Autor.Id_Autor == autor_id)
-        .first()
-    )
+    db_autor = db.query(Autor).filter(Autor.Id_Autor == autor_id).first()
     if db_autor:
         db_autor.Cedula_Autor = autor.Cedula_Autor
         db_autor.Nombre = autor.Nombre
@@ -43,12 +36,9 @@ def update_autor(db: Session, autor_id: int, autor: Autor):
         db.refresh(db_autor)
     return db_autor
 
+
 def delete_autor(db: Session, autor_id: int):
-    db_autor = (
-        db.query(Autor)
-        .filter(Autor.Id_Autor == autor_id)
-        .first()
-    )
+    db_autor = db.query(Autor).filter(Autor.Id_Autor == autor_id).first()
     if db_autor:
         db.delete(db_autor)
         db.commit()

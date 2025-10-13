@@ -1,5 +1,4 @@
-
-import uvicorn   
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -10,24 +9,39 @@ from src.entities import __all__
 from Database.conexion import *
 from usuarios_iniciales import create_initial_users
 
-from src.routers import auth, Autores, Bibliotecarios, Editoriales, Libros, Prestamos, Clientes
+from src.routers import (
+    auth,
+    Autores,
+    Bibliotecarios,
+    Editoriales,
+    Libros,
+    Prestamos,
+    Clientes,
+)
 
 
 app = FastAPI(
     title="API Biblioteca",
     version="1.0.0",
     description="API REST básica para gestión de una biblioteca académica.",
-    openapi_tags=[
-        
-    ]
+    openapi_tags=[],
 )
+
+"""
+    Configura la política CORS de la aplicación FastAPI.
+    
+    - Permite todas las fuentes (orígenes).
+    - Permite todas las credenciales.
+    - Permite todos los métodos HTTP (GET, POST, PUT, DELETE, etc.).
+    - Permite todas las cabeceras.
+"""
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permitir todas las fuentes (orígenes)
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos los métodos HTTP (GET, POST, etc.)
-    allow_headers=["*"],  # Permitir todas las cabeceras
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(auth.router)
@@ -41,21 +55,23 @@ app.include_router(Clientes.router)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Se crean las tablas al ejecutar el servidor
+""" Se crean las tablas al ejecutar el servidor"""
+
+
 @app.on_event("startup")
 def startup_event():
     create_tables()
     create_initial_users()
     print("✅ Tablas creadas al iniciar FastAPI")
 
-    
+
 @app.on_event("shutdown")
 def shutdown_event():
     drop_tables()
     print("✅ Tablas Eliminadas al cerrar FastAPI")
 
 
-def main():     
+def main():
     print("Iniciando servidor FastAPI...")
     uvicorn.run(
         "main:app",
@@ -74,7 +90,7 @@ if __name__ == "__main__":
     "/",
     summary="Información de la API",
     description="Endpoint raíz que proporciona información básica sobre la API",
-    tags=["General"]
+    tags=["General"],
 )
 def root():
     return {

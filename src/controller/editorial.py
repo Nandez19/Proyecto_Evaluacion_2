@@ -5,10 +5,10 @@ from src.entities.editorial import Editorial
 
 def create_editorial(db: Session, editorial: Editorial):
     new_editorial = Editorial(
-        #Id_Editorial=str(editorial.Id_Editorial),
+        # Id_Editorial=str(editorial.Id_Editorial),
         Nombre=editorial.Nombre,
         Pais=editorial.Pais,
-        Contacto=editorial.Contacto
+        Contacto=editorial.Contacto,
     )
     db.add(new_editorial)
     db.commit()
@@ -17,21 +17,16 @@ def create_editorial(db: Session, editorial: Editorial):
 
 
 def get_editorial(db: Session, editorial_id: int):
-    return (
-        db.query(Editorial)
-        .filter(Editorial.Id_Editorial == editorial_id)
-        .first()
-    )
+    return db.query(Editorial).filter(Editorial.Id_Editorial == editorial_id).first()
 
 
 def get_editoriales(db: Session):
     return db.query(Editorial).all()
 
+
 def update_editorial(db: Session, editorial_id: int, editorial: Editorial):
     db_editorial = (
-        db.query(Editorial)
-        .filter(Editorial.Id_Editorial == editorial_id)
-        .first()
+        db.query(Editorial).filter(Editorial.Id_Editorial == editorial_id).first()
     )
     if db_editorial:
         db_editorial.Nombre = editorial.Nombre
@@ -42,12 +37,9 @@ def update_editorial(db: Session, editorial_id: int, editorial: Editorial):
     return db_editorial
 
 
-
 def delete_editorial(db: Session, editorial_id: int):
     db_editorial = (
-        db.query(Editorial)
-        .filter(Editorial.Id_Editorial == editorial_id)
-        .first()
+        db.query(Editorial).filter(Editorial.Id_Editorial == editorial_id).first()
     )
     if db_editorial:
         db.delete(db_editorial)

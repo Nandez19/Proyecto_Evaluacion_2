@@ -5,12 +5,18 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.editorial import EditorialCreate, EditorialResponse
 import src.controller.editorial as editorial_controller
-from src.auth.middleware import get_current_user   
+from src.auth.middleware import get_current_user
 
-router = APIRouter(prefix="/editoriales", tags=["Editoriales"], dependencies=[Depends(get_current_user)])
+router = APIRouter(
+    prefix="/editoriales",
+    tags=["Editoriales"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
-# ✅ Crear una nueva editorial
+""" ✅ Crear una nueva editorial"""
+
+
 @router.post("/editoriales/", response_model=EditorialResponse)
 def create_editorial(editorial: EditorialCreate, db: Session = Depends(get_db)):
     nueva_editorial = editorial_controller.create_editorial(db=db, editorial=editorial)
@@ -29,7 +35,9 @@ def create_editorial(editorial: EditorialCreate, db: Session = Depends(get_db)):
     )
 
 
-# ✅ Obtener todas las editoriales
+""" ✅ Obtener todas las editoriales"""
+
+
 @router.get("/editoriales/", response_model=list[EditorialResponse])
 def get_editoriales(db: Session = Depends(get_db)):
     editoriales = editorial_controller.get_editoriales(db)
@@ -38,7 +46,9 @@ def get_editoriales(db: Session = Depends(get_db)):
     return editoriales
 
 
-# ✅ Obtener una editorial por ID
+""" ✅ Obtener una editorial por ID"""
+
+
 @router.get("/editoriales/{editorial_id}", response_model=EditorialResponse)
 def get_editorial(editorial_id: str, db: Session = Depends(get_db)):
     editorial = editorial_controller.get_editorial(db, editorial_id)
@@ -58,10 +68,16 @@ def get_editorial(editorial_id: str, db: Session = Depends(get_db)):
     )
 
 
-# ✅ Actualizar una editorial
+""" ✅ Actualizar una editorial"""
+
+
 @router.put("/editoriales/{editorial_id}", response_model=EditorialResponse)
-def update_editorial(editorial_id: str, editorial: EditorialCreate, db: Session = Depends(get_db)):
-    editorial_actualizada = editorial_controller.update_editorial(db, editorial_id, editorial)
+def update_editorial(
+    editorial_id: str, editorial: EditorialCreate, db: Session = Depends(get_db)
+):
+    editorial_actualizada = editorial_controller.update_editorial(
+        db, editorial_id, editorial
+    )
     if not editorial_actualizada:
         raise HTTPException(status_code=404, detail="Editorial no encontrada")
     return JSONResponse(
@@ -77,7 +93,9 @@ def update_editorial(editorial_id: str, editorial: EditorialCreate, db: Session 
     )
 
 
-# ✅ Eliminar una editorial
+"""" ✅ Eliminar una editorial"""
+
+
 @router.delete("/editoriales/{editorial_id}", response_model=EditorialResponse)
 def delete_editorial(editorial_id: str, db: Session = Depends(get_db)):
     editorial_eliminada = editorial_controller.delete_editorial(db, editorial_id)

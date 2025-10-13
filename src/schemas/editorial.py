@@ -6,14 +6,16 @@ from pydantic import BaseModel
 
 class EditorialBase(BaseModel):
 
-    #Id_Editorial:str
+    # Id_Editorial:str
     Nombre: str
     Pais: Optional[str] = None
     Contacto: Optional[str] = None
 
+
 class EditorialCreate(EditorialBase):
 
     pass
+
 
 class EditorialResponse(EditorialBase):
 

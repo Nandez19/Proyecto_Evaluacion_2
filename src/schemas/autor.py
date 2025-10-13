@@ -6,17 +6,17 @@ from pydantic import BaseModel
 
 class AutorBase(BaseModel):
 
-    #Id_Autor:Optional[str] = None
+    # Id_Autor:Optional[str] = None
     Cedula_Autor: str
     Nombre: str
     Telefono: Optional[str] = None
     Edad: Optional[str] = None
 
 
-
 class AutorCreate(AutorBase):
 
     pass
+
 
 class AutorResponse(AutorBase):
 
@@ -27,5 +27,3 @@ class AutorResponse(AutorBase):
 
     class Config:
         from_attributes = True
-
-   

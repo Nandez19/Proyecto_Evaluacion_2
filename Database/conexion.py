@@ -4,10 +4,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Configuración de la base de datos
+"""Configuracion de la base de datos"""
+
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://neondb_owner:npg_dI8rEHxQ3ynj@ep-blue-wave-adlftsxx-pooler.c-2.us-east-1.aws.neon.tech/Biblioteca?sslmode=require&channel_binding=require",
+    "postgresql://neondb_owner:npg_MfO7jmKg2Byp@ep-polished-moon-adhmtyd6-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
 )
 
 engine = create_engine(
@@ -24,6 +25,7 @@ Base = declarative_base()
 
 def get_db():
     """Dependency to get database session."""
+
     db = SessionLocal()
     try:
         yield db

@@ -4,18 +4,24 @@ from sqlalchemy.orm import Session
 from fastapi import Form
 from Database.conexion import get_db
 from src.auth.middleware import get_current_user
-from src.controller.auth_controller import authenticate_user, create_user, create_user_token
+from src.controller.auth_controller import (
+    authenticate_user,
+    create_user,
+    create_user_token,
+)
 
 from src.schemas.auth import LoginRequest, LoginResponse, UserCreate, UserResponse
 
-# OAuth2 scheme para extraer el token del header Authorization
+"""OAuth2 scheme para extraer el token del header Authorization"""
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 router = APIRouter(prefix="/auth", tags=["Autenticación"])
 
-# ---------------------------
-# REGISTRO DE USUARIO
-# ---------------------------
+"""
+REGISTRO DE USUARIO
+"""
+
+
 @router.post("/register", response_model=UserResponse)
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     try:
@@ -35,16 +41,15 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         print("❌ Error en create_user:", str(e))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
-# ---------------------------
+
+""" 
 # LOGIN
-# ---------------------------
+"""
 
 
 @router.post("/login", response_model=LoginResponse)
 def login_user(
-    username: str = Form(...),
-    password: str = Form(...),
-    db: Session = Depends(get_db)
+    username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)
 ):
     user = authenticate_user(db, username, password)
     if not user:
@@ -71,9 +76,12 @@ def login_user(
         ),
     )
 
-# ---------------------------
-# INFO DEL USUARIO ACTUAL
-# ---------------------------
+
+"""
+INFO DEL USUARIO ACTUAL
+"""
+
+
 @router.get("/me", response_model=UserResponse)
 def get_current_user_info(current_user: UserResponse = Depends(get_current_user)):
     return current_user

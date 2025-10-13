@@ -18,9 +18,10 @@ from src.entities.libro import Libro
 from src.entities.prestamo import Prestamo
 from src.entities.usuario import Usuario
 
-# Configurar logging
+"""Configurar logging"""
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def check_table_exists(table_name: str) -> bool:
     try:
@@ -42,6 +43,7 @@ def check_table_exists(table_name: str) -> bool:
         logger.error(f"Error verificando tabla {table_name}: {e}")
         return False
 
+
 def get_existing_tables() -> List[str]:
     try:
         with engine.connect() as conn:
@@ -60,6 +62,7 @@ def get_existing_tables() -> List[str]:
         logger.error(f"Error obteniendo tablas existentes: {e}")
         return []
 
+
 def create_tables():
     """
     Crea todas las tablas definidas en los modelos de entidades.
@@ -71,6 +74,7 @@ def create_tables():
     except Exception as e:
         logger.error(f"❌ Error creando tablas: {e}")
         raise
+
 
 def verify_migration_success() -> bool:
     required_tables = [
@@ -92,23 +96,24 @@ def verify_migration_success() -> bool:
     logger.info("✅ Todas las tablas requeridas están presentes")
     return True
 
+
 def run_migrations():
     try:
         logger.info("🔄 Iniciando migración automática...")
 
-        # Verificar conexión a la base de datos
+        """Verificar conexión a la base de datos"""
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
         logger.info("✅ Conexión a PostgreSQL establecida")
 
-        # Obtener tablas existentes
+        """Obtener tablas existentes"""
         existing_tables = get_existing_tables()
         logger.info(f"📋 Tablas existentes: {existing_tables}")
 
-        # Crear tablas faltantes
+        """Crear tablas faltantes"""
         create_tables()
 
-        # Verificar que la migración fue exitosa
+        """Verificar que la migración fue exitosa"""
         if verify_migration_success():
             logger.info("🎉 Migración completada exitosamente!")
             return True
@@ -122,6 +127,7 @@ def run_migrations():
     except Exception as e:
         logger.error(f"❌ Error inesperado durante la migración: {e}")
         return False
+
 
 def print_migration_status():
     try:

@@ -14,5 +14,5 @@ __all__ = [
     "LibroCreate",
     "LibroResponse",
     "PrestamoCreate",
-    "PrestamoResponse"
+    "PrestamoResponse",
 ]

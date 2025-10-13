@@ -13,9 +13,11 @@ class PrestamoBase(BaseModel):
     Id_Cliente: UUID
     Id_Libro: UUID
 
+
 class PrestamoCreate(PrestamoBase):
 
     pass
+
 
 class PrestamoResponse(PrestamoBase):
 
@@ -24,5 +26,6 @@ class PrestamoResponse(PrestamoBase):
     Id_usuario_actualizacion: Optional[UUID] = None
     Fecha_creacion: Optional[datetime] = None
     Fecha_actualizacion: Optional[datetime] = None
+
     class Config:
         from_attributes = True

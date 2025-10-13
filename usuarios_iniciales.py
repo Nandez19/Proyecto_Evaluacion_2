@@ -7,9 +7,10 @@ from Database.conexion import SessionLocal
 from src.controller.auth_controller import create_user
 from src.schemas.auth import UserCreate
 
+
 def create_initial_users():
     db: Session = SessionLocal()
-    
+
     try:
         users_to_create = [
             UserCreate(
@@ -18,7 +19,7 @@ def create_initial_users():
                 Telefono="3258796345",
                 Nombre="Administrador",
                 password="admin123",
-                Rol="admin"
+                Rol="admin",
             ),
             UserCreate(
                 Username="bibliotecario",
@@ -26,14 +27,16 @@ def create_initial_users():
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
                 password="biblio123",
-                Rol="bibliotecario"
-            )
+                Rol="bibliotecario",
+            ),
         ]
 
         for user in users_to_create:
             try:
                 created_user = create_user(db, user)
-                print(f"✅ Usuario creado: {created_user.Username} - Rol: {created_user.Rol}")
+                print(
+                    f"✅ Usuario creado: {created_user.Username} - Rol: {created_user.Rol}"
+                )
             except Exception as e:
                 db.rollback()
                 print(f"❌ No se pudo crear el usuario {user.Username}: {e}")
@@ -43,5 +46,3 @@ def create_initial_users():
 
     finally:
         db.close()
-
-

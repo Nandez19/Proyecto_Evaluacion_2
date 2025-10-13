@@ -3,17 +3,20 @@ from typing import Optional
 from uuid import UUID
 from pydantic import BaseModel
 
+
 class LibroBase(BaseModel):
 
     Codigo_Libro: str
     Titulo: str
-    Año:Optional[str] = None
+    Año: Optional[str] = None
     Precio: Optional[float] = None
     Id_Autor: UUID
     Id_Editorial: UUID
 
+
 class LibroCreate(LibroBase):
     pass
+
 
 class LibroResponse(LibroBase):
 

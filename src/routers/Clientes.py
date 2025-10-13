@@ -5,15 +5,21 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.cliente import ClienteCreate, ClienteResponse
 from src.controller import cliente as cliente_controller
-from src.auth.middleware import get_current_user   
+from src.auth.middleware import get_current_user
 
-router = APIRouter(prefix="/clientes", tags=["Clientes"], dependencies=[Depends(get_current_user)])
+router = APIRouter(
+    prefix="/clientes", tags=["Clientes"], dependencies=[Depends(get_current_user)]
+)
 
-# ==========================================================
-# Crear un cliente
-# ==========================================================
+"""
+Crear un cliente
+"""
+
+
 @router.post("/", response_model=ClienteResponse)
-def create_cliente(cliente: ClienteCreate, db: Session = Depends(get_db)) -> JSONResponse:
+def create_cliente(
+    cliente: ClienteCreate, db: Session = Depends(get_db)
+) -> JSONResponse:
     db_cliente = cliente_controller.create_cliente(db, cliente)
     if db_cliente is None:
         raise HTTPException(status_code=400, detail="Error al crear cliente")
@@ -30,9 +36,12 @@ def create_cliente(cliente: ClienteCreate, db: Session = Depends(get_db)) -> JSO
         },
     )
 
-# ==========================================================
-# Obtener todos los clientes
-# ==========================================================
+
+"""
+Obtener todos los clientes
+"""
+
+
 @router.get("/", response_model=list[ClienteResponse])
 def read_all_clientes(db: Session = Depends(get_db)):
     db_clientes = cliente_controller.get_clientes(db)
@@ -40,9 +49,12 @@ def read_all_clientes(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No hay clientes registrados")
     return db_clientes
 
-# ==========================================================
-# Obtener un cliente por ID
-# ==========================================================
+
+"""
+Obtener un cliente por ID
+"""
+
+
 @router.get("/{cliente_id}", response_model=ClienteResponse)
 def read_one_cliente(cliente_id: str, db: Session = Depends(get_db)):
     db_cliente = cliente_controller.get_cliente(db, cliente_id)
@@ -61,11 +73,16 @@ def read_one_cliente(cliente_id: str, db: Session = Depends(get_db)):
         },
     )
 
-# ==========================================================
-# Actualizar un cliente
-# ==========================================================
+
+"""
+Actualizar un cliente
+"""
+
+
 @router.put("/{cliente_id}", response_model=ClienteResponse)
-def update_cliente(cliente_id: str, cliente: ClienteCreate, db: Session = Depends(get_db)):
+def update_cliente(
+    cliente_id: str, cliente: ClienteCreate, db: Session = Depends(get_db)
+):
     db_cliente = cliente_controller.update_cliente(db, cliente_id, cliente)
     if db_cliente is None:
         raise HTTPException(status_code=404, detail="Cliente no encontrado")
@@ -82,9 +99,12 @@ def update_cliente(cliente_id: str, cliente: ClienteCreate, db: Session = Depend
         },
     )
 
-# ==========================================================
-# Eliminar un cliente
-# ==========================================================
+
+"""
+Eliminar un cliente
+"""
+
+
 @router.delete("/{cliente_id}", response_model=ClienteResponse)
 def delete_cliente(cliente_id: str, db: Session = Depends(get_db)):
     db_cliente = cliente_controller.delete_cliente(db, cliente_id)

@@ -5,12 +5,16 @@ from sqlalchemy.orm import Session
 from Database.conexion import get_db
 from src.schemas.libro import LibroCreate, LibroResponse
 import src.controller.libro as libro_controller
-from src.auth.middleware import get_current_user   
+from src.auth.middleware import get_current_user
 
-router = APIRouter(prefix="/libros", tags=["Libros"], dependencies=[Depends(get_current_user)])
+router = APIRouter(
+    prefix="/libros", tags=["Libros"], dependencies=[Depends(get_current_user)]
+)
 
 
-# ✅ Crear un nuevo libro
+""" ✅ Crear un nuevo libro"""
+
+
 @router.post("/libros/", response_model=LibroResponse)
 def create_libro(libro: LibroCreate, db: Session = Depends(get_db)):
     nuevo_libro = libro_controller.create_libro(db=db, libro=libro)
@@ -30,7 +34,9 @@ def create_libro(libro: LibroCreate, db: Session = Depends(get_db)):
     )
 
 
-# ✅ Obtener todos los libros
+""" ✅ Obtener todos los libros"""
+
+
 @router.get("/libros/", response_model=list[LibroResponse])
 def get_all_libros(db: Session = Depends(get_db)):
     libros = libro_controller.get_libros(db)
@@ -39,7 +45,9 @@ def get_all_libros(db: Session = Depends(get_db)):
     return libros
 
 
-# ✅ Obtener un libro por ID
+""" ✅ Obtener un libro por ID"""
+
+
 @router.get("/libros/{libro_id}", response_model=LibroResponse)
 def get_libro(libro_id: str, db: Session = Depends(get_db)):
     libro = libro_controller.get_libro(db, libro_id)
@@ -60,7 +68,9 @@ def get_libro(libro_id: str, db: Session = Depends(get_db)):
     )
 
 
-# ✅ Actualizar un libro
+""" ✅ Actualizar un libro"""
+
+
 @router.put("/libros/{libro_id}", response_model=LibroResponse)
 def update_libro(libro_id: str, libro: LibroCreate, db: Session = Depends(get_db)):
     libro_actualizado = libro_controller.update_libro(db, libro_id, libro)
@@ -79,7 +89,9 @@ def update_libro(libro_id: str, libro: LibroCreate, db: Session = Depends(get_db
     )
 
 
-# ✅ Eliminar un libro
+""" ✅ Eliminar un libro"""
+
+
 @router.delete("/libros/{libro_id}", response_model=LibroResponse)
 def delete_libro(libro_id: str, db: Session = Depends(get_db)):
     libro_eliminado = libro_controller.delete_libro(db, libro_id)
