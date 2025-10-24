@@ -1,0 +1,190 @@
+*{margin: 0;
+padding: 0;
+}
+
+// ==========================================================
+// 1. VARIABLES
+// ==========================================================
+$color-light-bg: #f8f8f8;       // Color muy claro (para fondo de tarjeta)
+$color-dark-navbar: #1a1a1a;    // Fondo para Navbar y Footer (Gris muy oscuro)
+$color-light-text: #f0f0f0;     // Texto claro para contraste con Navbar
+$color-primary-text: #333333;   // Texto oscuro principal (para el body y contenido claro)
+$color-accent: #03a9f4;         // Azul Vivo (Acento principal)
+$color-secondary: #00bcd4;      // Cyan/Turquesa (Acento secundario)
+$color-card-bg: #ffffff;        
+$color-section-bg: #eeeeee;     
+$border-radius-base: 8px;
+$shadow-base: 0 4px 15px rgba(0, 0, 0, 0.1); 
+
+// ==========================================================
+// 2. ESTILOS GLOBALES DEL BODY 
+// ==========================================================
+body, html {
+  margin: 0;      // Elimina el margen por defecto
+  padding: 0;     // Elimina el padding por defecto
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: $color-light-bg; 
+  color: $color-primary-text;
+  line-height: 1.6;
+}
+
+main {
+    margin: 0; 
+    padding: 0;
+}
+
+// ==========================================================
+// 3. ESTILOS DE LA NAV BAR (Fondo Oscuro y Flexible)
+// ==========================================================
+.navbar {
+    width: 100%;
+    background-color: $color-dark-navbar; 
+    color: $color-light-text;
+    
+    padding: 20px 20px; 
+    box-sizing: border-box; 
+    
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
+    position: sticky; 
+    top: 0;
+    z-index: 1000; 
+    transition: background-color 0.3s ease;
+}
+
+/* --- LOGO --- */
+.navbar .logo a {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $color-light-text; 
+    text-decoration: none;
+    white-space: nowrap; 
+    flex-shrink: 0; 
+    
+    span {
+        color: $color-accent; 
+    }
+}
+
+/* --- ENLACES DE NAVEGACIÓN --- */
+.nav-links {
+    display: flex;
+    gap: 30px; 
+    flex-grow: 1; 
+    justify-content: center;
+    min-width: 0; 
+}
+
+.nav-link {
+text-decoration: none;
+color: rgba($color-light-text, 0.85); 
+font-size: 1.05rem;
+font-weight: 500;
+padding: 5px 0;
+position: relative;
+cursor: pointer;
+white-space: nowrap; 
+transition: color 0.3s ease, transform 0.1s ease; // CAMBIO 1: Añadida transición para 'transform'
+
+&:hover {
+color: $color-accent;
+}
+
+&:active { // CAMBIO 2: Añadido estilo al presionar (pulsar)
+color: lighten($color-accent, 15%);
+transform: translateY(1px); // Efecto de hundimiento
+}
+
+/* Efecto de subrayado */
+&::after {
+content: '';
+position: absolute;
+width: 100%;
+transform: scaleX(0); 
+height: 2px;
+bottom: -8px;
+left: 0;
+background-color: $color-accent;
+transition: transform 0.3s ease-in-out;
+}
+
+&:hover::after,// Mantenido
+&:active::after { // CAMBIO 3: La barra de subrayado también aparece al presionar
+transform: scaleX(1); 
+ }
+}
+
+/* --- CONTENEDOR DE ACCIONES (Botón Login) --- */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; 
+    margin-left: 20px; 
+}
+
+/* --- BOTÓN DE LOGIN (Modificado) --- */
+.btn-login {
+background-color: $color-accent;
+color: $color-light-bg;
+border: none;
+padding: 8px 18px; 
+font-size: 0.95rem; 
+white-space: nowrap; 
+cursor: pointer;
+border-radius: 25px; 
+transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+box-shadow: 0 4px 10px rgba($color-accent, 0.3);
+
+&:hover {
+background-color: darken($color-accent, 5%);
+box-shadow: 0 6px 15px rgba($color-accent, 0.5);
+transform: translateY(-2px);
+}
+
+&:active { // CAMBIO 4: Añadido estilo de pulsación para el botón
+background-color: darken($color-accent, 10%);
+box-shadow: 0 2px 8px rgba($color-accent, 0.7);
+transform: translateY(1px);
+ }
+}
+
+// ==========================================================
+// 4. ESTILOS DEL FOOTER
+// ==========================================================
+.footer {
+  padding: 1.5rem 2rem;
+  background-color: $color-dark-navbar; 
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba($color-light-text, 0.8);
+}
+
+// ==========================================================
+// 5. RESPONSIVE GLOBAL
+// ==========================================================
+@media (max-width: 850px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+    .nav-links {
+        display: none; 
+    }
+    .navbar .logo {
+        margin-right: auto; 
+    }
+}
+
+@media (max-width: 500px) {
+    .navbar {
+        padding: 10px 10px;
+    }
+    .btn-login {
+        padding: 6px 12px; 
+        font-size: 0.85rem;
+    }
+}
