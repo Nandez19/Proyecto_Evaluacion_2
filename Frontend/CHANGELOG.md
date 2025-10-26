@@ -1,117 +1,71 @@
 # Changelog
+## [1.4.1]
 
-All notable changes to this project will be documented in this file.
+### Updated
+ 
+- Minor packages update
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.4.0]
 
-## [Unreleased]
+### Updated
+ 
+- Minor packages update
 
-## [0.11.0] - 2025-10-11
+## [1.3.0]
 
-### removed
+### Updated
 
-- remove zoneless change detection
+- Angular Material upgraded to 1.0
+- Angular upgraded to 1.5
+- Dependencies updated
 
-## [0.10.1] - 2025-02-09
-
-### Fixed
-
-- theme colors conversion from HSL to HEX
-- postcss broken production build space-{x,y}-_, divide-{x,y}-_ https://github.com/tailwindlabs/tailwindcss/issues/16147
-
-## [0.10.0] - 2025-02-02
-
-### Added
-
-- upgrade angular v18 to v19
-- upgrade tailwindcss v3 to v4
-
-## [0.9.0] - 2024-10-27
-
-### Added
-
-- add table filters
+## [1.2.0]
 
 ### Fixed
 
-- table component tests
+- Lot of UX/UI improvements
+- Minor fixes
 
-## [0.8.1] - 2024-10-27
+### New Features
 
-### Fixed
+- Browsers support
+- Added messages section directive
+- Changed app structure
 
-- menu display issue behind components #18
+## [1.1.0]
 
-### Added
+### New Features
 
-- error handling with dummy data fallback in user fetching #20
+- Implement message-section directive
 
-## [0.8.0] - 2024-08-08
+## [1.0.1]
 
-### Added
+### Updated
 
-- table component
+- Update dependencies
 
-### Changed
+## [1.1.0]
 
-- error page menu icon
+### New Features
 
-## [0.7.0] - 2024-07-17
-
-### Added
-
-- update minor version of angular 18
-
-## [0.6.0] - 2024-07-05
-
-### Added
-
-- update angular 17 to 18
-
-## [0.5.0] - 2024-04-30
-
-### Added
-
-- add error module
-
-## [0.4.1] - 2024-02-27
+- New layout
+- Custom theme styles
+- New dashboard sections
+- Angular Material v0.10.0
+- Added md-menu
+- Google material icons
+- NVD3 charts
+- Responsive layout
+- Nested views
 
 ### Fixed
 
-- profile menu z-index
-- podcast music play button
+- Adjusted panel-widget directive
+- Stylesheets reorganized
+- Widgets reworked
+- Adjusted table
+- Reorganized app structure
+- Adjusted sidebars
 
-## [0.4.0] - 2024-02-22
 
-### Added
 
-- button component
-
-### Changed
-
-- update angular minor version
-
-## [0.3.0] - 2024-02-21
-
-### Added
-
-- Multi theme
-
-## [0.2.0] - 2023-11-09
-
-### Changed
-
-- Upgrade angular version from 16 to 17
-
-## [0.1.2] - 2023-10-24
-
-### Fixed
-
-- Scroll to top when route change (#9)
-
-## [0.1.1] - 2023-02-03
-
-### Fixed
-
-- Mobile navbar menu index order
