@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { toast } from 'ngx-sonner';
-import { dummyData } from 'src/app/shared/dummy/user.dummy';
 import { TableActionComponent } from './components/table-action/table-action.component';
 import { TableFooterComponent } from './components/table-footer/table-footer.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
@@ -12,88 +11,100 @@ import { User } from './model/user.model';
 import { TableFilterService } from './services/table-filter.service';
 
 @Component({
-  selector: 'app-table',
-  imports: [
-    AngularSvgIconModule,
-    FormsModule,
-    TableHeaderComponent,
-    TableFooterComponent,
-    TableRowComponent,
-    TableActionComponent,
-  ],
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.css',
+selector: 'app-table',
+standalone: true,
+imports: [
+AngularSvgIconModule,
+FormsModule,
+TableHeaderComponent,
+TableFooterComponent,
+TableRowComponent,
+TableActionComponent,
+],
+templateUrl: './table.component.html',
+styleUrls: ['./table.component.css'],
 })
 export class TableComponent implements OnInit {
-  users = signal<User[]>([]);
+users = signal<User[]>([]);
 
-  constructor(private http: HttpClient, private filterService: TableFilterService) {
-    this.http.get<User[]>('https://freetestapi.com/api/v1/users?limit=8').subscribe({
-      next: (data) => this.users.set(data),
-      error: (error) => {
-        this.users.set(dummyData);
-        this.handleRequestError(error);
-      },
-    });
-  }
+constructor(
+private http: HttpClient,
+private filterService: TableFilterService
+) {}
 
-  public toggleUsers(checked: boolean) {
-    this.users.update((users) => {
-      return users.map((user) => {
-        return { ...user, selected: checked };
-      });
-    });
-  }
+ngOnInit(): void {
+this.loadUsers();
+}
 
-  private handleRequestError(error: any) {
-    const msg = 'An error occurred while fetching users. Loading dummy data as fallback.';
-    toast.error(msg, {
-      position: 'bottom-right',
-      description: error.message,
-      action: {
-        label: 'Undo',
-        onClick: () => console.log('Action!'),
-      },
-      actionButtonStyle: 'background-color:#DC2626; color:white;',
-    });
-  }
+private loadUsers(): void {
+this.http.get<User[]>('http://127.0.0.1:8000/usuarios/usuarios').subscribe({
 
-  filteredUsers = computed(() => {
-    const search = this.filterService.searchField().toLowerCase();
-    const status = this.filterService.statusField();
-    const order = this.filterService.orderField();
+next: (data) => this.users.set(data),
+error: (error) => {
+this.users.set([]); // carga vacía si hay error
+this.handleRequestError(error);
+},
+});
+}
 
-    return this.users()
-      .filter(
-        (user) =>
-          user.name.toLowerCase().includes(search) ||
-          user.username.toLowerCase().includes(search) ||
-          user.email.toLowerCase().includes(search) ||
-          user.phone.includes(search),
-      )
-      .filter((user) => {
-        if (!status) return true;
-        switch (status) {
-          case '1':
-            return user.status === 1;
-          case '2':
-            return user.status === 2;
-          case '3':
-            return user.status === 3;
-          default:
-            return true;
-        }
-      })
-      .sort((a, b) => {
-        const defaultNewest = !order || order === '1';
-        if (defaultNewest) {
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        } else if (order === '2') {
-          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-        }
-        return 0;
-      });
+public toggleUsers(checked: boolean): void {
+this.users.update((users) =>
+users.map((user) => ({ ...user, selected: checked }))
+);
+}
+
+private handleRequestError(error: any): void {
+toast.error('Error al obtener usuarios.', {
+position: 'bottom-right',
+description:
+error?.message ||
+'Ocurrió un error al cargar los usuarios. Por favor, inténtalo más tarde.',
+action: {
+label: 'Reintentar',
+onClick: () => this.loadUsers(),
+},
+actionButtonStyle: 'background-color:#DC2626; color:white;',
+});
+}
+
+filteredUsers = computed(() => {
+const search = this.filterService.searchField().toLowerCase();
+const status = this.filterService.statusField();
+const order = this.filterService.orderField();
+
+   return this.users()
+  .filter(
+    (user) =>
+      user.Nombre.toLowerCase().includes(search) ||
+      user.Username.toLowerCase().includes(search) ||
+      user.Correo.toLowerCase().includes(search) ||
+      (user.Telefono?.includes(search) ?? false)
+  )
+  .filter((user) => {
+    if (!status) return true;
+    switch (status) {
+      case '1':
+        return user.Activo === true;
+      case '2':
+        return user.Activo === false;
+      default:
+        return true;
+    }
+  })
+  .sort((a, b) => {
+    const defaultNewest = !order || order === '1';
+    if (defaultNewest) {
+      return (
+        new Date(b.Fecha_creacion).getTime() -
+        new Date(a.Fecha_creacion).getTime()
+      );
+    } else if (order === '2') {
+      return (
+        new Date(a.Fecha_creacion).getTime() -
+        new Date(b.Fecha_creacion).getTime()
+      );
+    }
+    return 0;
   });
-
-  ngOnInit() {}
+});
 }

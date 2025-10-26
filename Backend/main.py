@@ -17,6 +17,7 @@ from src.routers import (
     Libros,
     Prestamos,
     Clientes,
+    Usuarios,
 )
 
 
@@ -51,6 +52,7 @@ app.include_router(Editoriales.router)
 app.include_router(Libros.router)
 app.include_router(Prestamos.router)
 app.include_router(Clientes.router)
+app.include_router(Usuarios.router)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

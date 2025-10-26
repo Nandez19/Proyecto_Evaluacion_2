@@ -3,14 +3,14 @@ import { MenuItem } from '../models/menu.model';
 export class Menu {
   public static pages: MenuItem[] = [
     {
-      group: 'Base',
+      group: 'Biblioteca ITM',
       separator: false,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
-          label: 'Dashboard',
+          label: 'Inicio',
           route: '/dashboard',
-          children: [{ label: 'Nfts', route: '/dashboard/nfts' }],
+          children: [{ label: 'Libros', route: '/dashboard/nfts' }],
         },
         {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
@@ -25,55 +25,26 @@ export class Menu {
           ],
         },
         {
-          icon: 'assets/icons/heroicons/outline/exclamation-triangle.svg',
-          label: 'Errors',
-          route: '/errors',
-          children: [
-            { label: '404', route: '/errors/404' },
-            { label: '500', route: '/errors/500' },
-          ],
-        },
-        {
           icon: 'assets/icons/heroicons/outline/cube.svg',
-          label: 'Components',
+          label: 'Auditoria (Solo admin)',
           route: '/components',
-          children: [{ label: 'Table', route: '/components/table' }],
+          children: [{ label: 'Usuarios', route: '/components/table' }],
         },
       ],
     },
+   
     {
-      group: 'Collaboration',
-      separator: true,
-      items: [
-        {
-          icon: 'assets/icons/heroicons/outline/download.svg',
-          label: 'Download',
-          route: '/download',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/gift.svg',
-          label: 'Gift Card',
-          route: '/gift',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Users',
-          route: '/users',
-        },
-      ],
-    },
-    {
-      group: 'Config',
+      group: 'Configuraciones',
       separator: false,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Settings',
+          label: 'Ajustes',
           route: '/settings',
         },
         {
           icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'Notifications',
+          label: 'Notificaciones',
           route: '/gift',
         },
         {

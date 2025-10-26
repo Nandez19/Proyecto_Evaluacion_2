@@ -35,7 +35,15 @@ def create_initial_users():
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
                 password="santi123",
-                Rol="cliente",
+                Rol="bibliotecario",
+            ),
+            UserCreate(
+                Username="Mosca",
+                Correo="Laosca@example.com",
+                Telefono="3115489637",
+                Nombre="Admin",
+                password="lamosca123",
+                Rol="admin",
             ),
         ]
 
