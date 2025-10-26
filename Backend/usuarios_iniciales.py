@@ -19,7 +19,7 @@ def create_initial_users():
                 Telefono="3258796345",
                 Nombre="Administrador",
                 password="nande123",
-                Rol="admin",
+                Rol="Admin",
             ),
             UserCreate(
                 Username="Emmanuel",
@@ -27,7 +27,7 @@ def create_initial_users():
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
                 password="goblin123",
-                Rol="bibliotecario",
+                Rol="Bibliotecario",
             ),
             UserCreate(
                 Username="Santiago",
@@ -35,15 +35,15 @@ def create_initial_users():
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
                 password="santi123",
-                Rol="bibliotecario",
+                Rol="Bibliotecario",
             ),
             UserCreate(
-                Username="Mosca",
-                Correo="Laosca@example.com",
+                Username="Omar",
+                Correo="Omar@example.com",
                 Telefono="3115489637",
-                Nombre="Admin",
+                Nombre="Bibliotecario",
                 password="lamosca123",
-                Rol="admin",
+                Rol="Bibliotecario",
             ),
         ]
 
