@@ -28,8 +28,11 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/cube.svg',
           label: 'Auditoria (Solo admin)',
           route: '/components',
-          children: [{ label: 'Usuarios', route: '/components/table' }],
+          children: [{ label: 'Usuarios', route: '/components/table' },
+          { label: 'Clientes', route: '/components/table' }
+          ],
         },
+        
       ],
     },
    
