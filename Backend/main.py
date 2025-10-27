@@ -37,12 +37,18 @@ app = FastAPI(
     - Permite todas las cabeceras.
 """
 
+"""origins = [
+    "http://localhost:4200",   # frontend angular
+    "http://127.0.0.1:4200",   # a veces Angular usa esta dirección
+]"""
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    
 )
 
 app.include_router(auth.router)

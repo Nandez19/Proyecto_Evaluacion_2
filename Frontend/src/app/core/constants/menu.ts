@@ -29,7 +29,7 @@ export class Menu {
           label: 'Auditoria (Solo admin)',
           route: '/components',
           children: [{ label: 'Usuarios', route: '/components/table' },
-          { label: 'Clientes', route: '/components/table' }
+          { label: 'Clientes', route: '/components/table_cliente' }
           ],
         },
         

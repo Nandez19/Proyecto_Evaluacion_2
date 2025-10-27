@@ -122,3 +122,5 @@ def delete_cliente(cliente_id: str, db: Session = Depends(get_db)):
             },
         },
     )
+
+
