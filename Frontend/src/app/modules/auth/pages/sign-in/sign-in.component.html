@@ -2,7 +2,7 @@
 <form class="my-10 space-y-6" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="text-center">
     <h2 class="text-foreground mb-1 text-3xl font-semibold">Bienvenido <span class="text-primary">!</span></h2>
-    <p class="text-muted-foreground text-sm">Ingrese sus datos para acceder</p>
+    <p class="text-muted-foreground text-sm">Ingrese sus credenciales.</p>
   </div>
 
   <div routerLink="/dashboard">
@@ -14,7 +14,7 @@
 
   <div
     class="before:border-muted after:border-muted my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t after:mt-0.5 after:flex-1 after:border-t">
-    <p class="text-muted-foreground mx-4 mb-0 text-center text-sm">o</p>
+    <p class="text-muted-foreground mx-4 mb-0 text-center text-sm">or</p>
   </div>
 
   <div class="space-y-3 text-left">
@@ -35,8 +35,8 @@
         </label>
       </div>
       <div *ngIf="submitted && f['email'].errors" class="is__invalid-error">
-        <div *ngIf="f['email'].errors['required']">Campo necesario</div>
-        <div *ngIf="f['email'].errors['email']">Email must be an email address valid</div>
+        <div *ngIf="f['email'].errors['required']">Campo Requrido</div>
+        <div *ngIf="f['email'].errors['email']">El correo electrónico debe ser una dirección de correo electrónico válida</div>
       </div>
     </div>
 
@@ -69,7 +69,7 @@
         </span>
       </div>
       <div *ngIf="submitted && f['password'].errors" class="is__invalid-error">
-        <div *ngIf="f['password'].errors['required']">Campo necesario</div>
+        <div *ngIf="f['password'].errors['required']">Required field</div>
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
   <div class="mb-2 flex items-center justify-between space-x-3">
     <div class="flex items-center">
       <input id="remember-me" name="remember-me" type="checkbox" />
-      <label for="remember-me" class="text-muted-foreground ml-2 block text-sm"> Recordame </label>
+      <label for="remember-me" class="text-muted-foreground ml-2 block text-sm"> Recordarme </label>
     </div>
 
     <app-button routerLink="/auth/forgot-password" impact="none" tone="primary" shape="rounded" size="small">
@@ -87,14 +87,14 @@
 
   <!-- Submit Button -->
   <div>
-    <app-button full impact="bold" tone="primary" shape="rounded" size="medium">Sign in</app-button>
+    <app-button full impact="bold" tone="primary" shape="rounded" size="medium">Entrar</app-button>
   </div>
 
   <!-- Sign-up -->
   <div class="text-muted-foreground flex items-center text-sm">
-    Aun no tiene cuenta?
+    No eres miembro?
     <app-button routerLink="/auth/sign-up" impact="none" tone="primary" shape="rounded" size="small">
-      Registrarse
+     Registrarse
     </app-button>
   </div>
 </form>
