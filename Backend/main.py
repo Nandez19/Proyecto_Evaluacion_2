@@ -18,6 +18,7 @@ from src.routers import (
     Prestamos,
     Clientes,
     Usuarios,
+    password_reset
 )
 
 
@@ -59,6 +60,7 @@ app.include_router(Libros.router)
 app.include_router(Prestamos.router)
 app.include_router(Clientes.router)
 app.include_router(Usuarios.router)
+app.include_router(password_reset.router)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

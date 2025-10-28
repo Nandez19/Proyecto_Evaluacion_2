@@ -31,7 +31,7 @@ def create_initial_users():
             ),
             UserCreate(
                 Username="Santiago",
-                Correo="Santiago@example.com",
+                Correo="correo.prueba160205@gmail.com",
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
                 password="santi123",
