@@ -20,7 +20,7 @@ def solicitar_reset_password(db, correo: str):
     expire = datetime.utcnow() + timedelta(minutes=15)
     token = jwt.encode({"sub": correo, "exp": expire}, SECRET_KEY, algorithm=ALGORITHM)
 
-    reset_link = f"http://localhost:4200/reset-password?token={token}"
+    reset_link = f"http://localhost:4200/auth/new-password?token={token}"
     enviar_correo_reset(correo, reset_link)
 
     return {"message": "Correo de recuperación enviado", "token": token}

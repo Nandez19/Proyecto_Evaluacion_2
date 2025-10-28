@@ -7,23 +7,21 @@ export class Menu {
       separator: false,
       items: [
         {
+          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          label: 'Auth',
+          route: '/auth',
+          children: [
+            { label: 'Registrarse', route: '/auth/sign-up' },
+            { label: 'Entrar', route: '/auth/sign-in' },
+          ],
+        },
+        {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Inicio',
           route: '/dashboard',
           children: [{ label: 'Libros', route: '/dashboard/nfts' }],
         },
-        {
-          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
-          label: 'Auth',
-          route: '/auth',
-          children: [
-            { label: 'Sign up', route: '/auth/sign-up' },
-            { label: 'Sign in', route: '/auth/sign-in' },
-            { label: 'Forgot Password', route: '/auth/forgot-password' },
-            { label: 'New Password', route: '/auth/new-password' },
-            { label: 'Two Steps', route: '/auth/two-steps' },
-          ],
-        },
+        
         {
           icon: 'assets/icons/heroicons/outline/cube.svg',
           label: 'Auditoria (Solo admin)',
