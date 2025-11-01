@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from src.auth.jwt_handler import create_access_token, get_password_hash, verify_password
 from src.entities.usuario import Usuario
 from src.schemas.auth import LoginRequest, UserCreate, UserResponse
+from datetime import timedelta
 
 
 """
@@ -76,11 +77,18 @@ def authenticate_user(db: Session, username: str, password: str) -> Optional[Usu
         return None
     return user
 
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 def create_user_token(user: Usuario) -> str:
+    """Genera un token JWT con el ID del usuario y su rol"""
     token_data = {
         "sub": user.Username,
-        "user_id": str(user.Id_Usuario),
+        "user_id": str(user.Id_Usuario),  # 👈 Campo que usa get_current_user
         "rol": user.Rol,
     }
-    return create_access_token(data=token_data)
+
+    # ⏰ Agregamos expiración al token
+    expires_delta = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+
+    # ✅ Crea el token con expiración
+    return create_access_token(data=token_data, expires_delta=expires_delta)
