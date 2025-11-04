@@ -111,3 +111,6 @@ def verify_token(token: str) -> dict:
             detail="Token inválido",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
+    
+    
