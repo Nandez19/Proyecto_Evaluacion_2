@@ -19,7 +19,7 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Inicio',
           route: '/dashboard',
-          children: [{ label: 'Libros', route: '/dashboard/nfts' }],
+          children: [{ label: 'Libros', route: '/dashboard/libros' }],
         },
         
         {

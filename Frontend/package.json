@@ -69,6 +69,7 @@
     "postcss": "^8.5.3",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.12",
+    "sass": "^1.94.0",
     "tailwind-scrollbar": "^4.0.0",
     "tailwindcss": "^4.0.5",
     "typescript": "~5.8.3"
