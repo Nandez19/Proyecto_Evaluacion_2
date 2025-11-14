@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableHeaderComponent } from './table-header.component';
+import { TableHeaderComponent } from './table-header-autor.component';
 
 describe('TableHeaderComponent', () => {
   let component: TableHeaderComponent;

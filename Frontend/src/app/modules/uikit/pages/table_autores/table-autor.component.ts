@@ -3,15 +3,15 @@ import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { toast } from 'ngx-sonner';
-import { TableActionClienteComponent } from './components/table-action-cliente/table-action-cliente.component';
-import { TableFooterComponent } from './components/table-footer-cliente/table-footer.component';
-import { TableHeaderComponent } from './components/table-header-cliente/table-header-cliente.component';
-import { TableRowComponent } from './components/table-row-cliente/table-row-cliente.component';
-import { Cliente } from './model/cliente.model';
-import { TableFilterClienteService } from './services/table.filter-cliente.service';
+import { TableActionAutorComponent } from './components/table-action-autor/table-action-autor.component';
+import { TableFooterComponent } from './components/table-footer-autor/table-footer.component';
+import { TableHeaderComponent } from './components/table-header-autor/table-header-autor.component';
+import { TableRowComponent } from './components/table-row-autor/table-row-autor.component';
+import { Autor } from './model/autor.model';
+import { TableFilterAutorService } from './services/table.filter-autor.service';
 
 @Component({
-  selector: 'app-table-cliente',
+  selector: 'app-table-autor',
   standalone: true,
   imports: [
     AngularSvgIconModule,
@@ -19,25 +19,25 @@ import { TableFilterClienteService } from './services/table.filter-cliente.servi
     TableHeaderComponent,
     TableFooterComponent,
     TableRowComponent,
-    TableActionClienteComponent,
+    TableActionAutorComponent,
   ],
-  templateUrl: './table-cliente.component.html',
-  styleUrls: ['./table-cliente.component.css'],
+  templateUrl: './table-autor.component.html',
+  styleUrls: ['./table-autor.component.css'],
 })
-export class TableClienteComponent implements OnInit {
-  clientes = signal<Cliente[]>([]);
+export class TableAutorComponent implements OnInit {
+  autores = signal<Autor[]>([]);
 
   constructor(
     private http: HttpClient,
-    private filterService: TableFilterClienteService
+    private filterService: TableFilterAutorService
   ) {}
 
   ngOnInit(): void {
-    this.loadClientes();
+    this.loadAutores();
   }
 
   /** Cargar lista de clientes desde la API */
-private loadClientes(): void {
+private loadAutores(): void {
   const token = localStorage.getItem('token');
   console.log('🔑 Token encontrado:', token ? 'SÍ ✅' : 'NO ❌');
 
@@ -45,16 +45,16 @@ private loadClientes(): void {
     'Authorization': `Bearer ${token}`
   };
 
-  console.log('📤 Haciendo petición a:', 'http://127.0.0.1:8000/clientes');
+  console.log('📤 Haciendo petición a:', 'http://127.0.0.1:8000/autores/autores');
   console.log('📤 Headers:', headers);
 
   this.http
-    .get<Cliente[]>('http://127.0.0.1:8000/clientes', { headers })
+    .get<Autor[]>('http://127.0.0.1:8000/autores/autores', { headers })
     .subscribe({
       next: (data) => {
         console.log("✅ ÉXITO - Datos recibidos:", data);
-        console.log("📊 Cantidad de clientes:", data.length);
-        this.clientes.set(data);
+        console.log("📊 Cantidad de autores:", data.length);
+        this.autores.set(data);
       },
       error: (error) => {
         console.log("❌ ERROR COMPLETO:", error);
@@ -72,46 +72,45 @@ private loadClientes(): void {
           });
         }
         
-        this.clientes.set([]);
+        this.autores.set([]);
         this.handleRequestError(error);
       },
     });
 }
 
   /** Seleccionar o deseleccionar todos los clientes */
-  public toggleClientes(checked: boolean): void {
-    this.clientes.update((clientes) =>
-      clientes.map((cliente) => ({ ...cliente, selected: checked }))
+  public toggleAutores(checked: boolean): void {
+    this.autores.update((autores) =>
+      autores.map((autores) => ({ ...autores, selected: checked }))
     );
   }
 
   /** Mostrar error con notificación */
   private handleRequestError(error: any): void {
-    toast.error('Error al obtener clientes.', {
+    toast.error('Error al obtener autores.', {
       position: 'bottom-right',
       description:
         error?.message ||
-        'Ocurrió un error al cargar los clientes. Por favor, inténtalo más tarde.',
+        'Ocurrió un error al cargar los autores. Por favor, inténtalo más tarde.',
       action: {
         label: 'Reintentar',
-        onClick: () => this.loadClientes(),
+        onClick: () => this.loadAutores(),
       },
       actionButtonStyle: 'background-color:#DC2626; color:white;',
     });
   }
 
   /** Filtro y ordenamiento de clientes */
-  filteredClientes = computed(() => {
+  filteredAutores = computed(() => {
     const search = this.filterService.searchField().toLowerCase();
     const order = this.filterService.orderField();
 
-    return this.clientes()
+    return this.autores()
       .filter(
-        (cliente) =>
-          cliente.Nombre.toLowerCase().includes(search) ||
-          cliente.Correo.toLowerCase().includes(search) ||
-          cliente.Cedula_Cliente.toLowerCase().includes(search) ||
-          (cliente.Telefono?.includes(search) ?? false)
+        (autor) =>
+          autor.Nombre.toLowerCase().includes(search) ||
+          autor.Cedula_Autor.toLowerCase().includes(search) ||
+          (autor.Telefono?.includes(search) ?? false)
       )
       .sort((a, b) => {
         const defaultNewest = !order || order === '1';

@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TableAutorComponent } from './table-autor.component';
 
-import { TableActionComponent } from './table-action.component';
-
-describe('TableActionComponent', () => {
-  let component: TableActionComponent;
-  let fixture: ComponentFixture<TableActionComponent>;
+describe('TableClienteComponent', () => {
+  let component: TableAutorComponent;
+  let fixture: ComponentFixture<TableAutorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TableActionComponent],
+      imports: [TableAutorComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TableActionComponent);
+    fixture = TestBed.createComponent(TableAutorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -20,3 +19,4 @@ describe('TableActionComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+

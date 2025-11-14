@@ -2,10 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
-  selector: '[app-table-header]',
+  selector: '[app-table-header-autor]',
   imports: [AngularSvgIconModule],
-  templateUrl: './table-header.component.html',
-  styleUrl: './table-header.component.css',
+  templateUrl: './table-header-autor.component.html',
+  styleUrl: './table-header-autor.component.css',
 })
 export class TableHeaderComponent {
   @Output() onCheck = new EventEmitter<boolean>();
