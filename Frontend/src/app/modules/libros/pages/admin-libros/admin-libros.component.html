@@ -1,0 +1,165 @@
+<div class="container-admin-libros p-6">
+  <!-- Header -->
+  <div class="header mb-6 flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-white">Gestión de Libros</h1>
+    <button 
+      (click)="abrirModalCrear()"
+      class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+      + Crear Nuevo Libro
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center py-8">
+    <p class="text-gray-400">Cargando libros...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <!-- Tabla de libros -->
+  <div *ngIf="!loading && !error" class="bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+    <table class="w-full">
+      <thead class="bg-gray-900">
+        <tr>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Código</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Título</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Año</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Precio</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Autor ID</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Editorial ID</th>
+          <th class="px-6 py-4 text-center text-xs font-semibold text-gray-400 uppercase">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-700">
+        <tr *ngFor="let libro of libros" class="hover:bg-gray-700/50 transition-colors">
+          <td class="px-6 py-4 text-sm text-gray-300">{{ libro.Codigo_Libro }}</td>
+          <td class="px-6 py-4 text-sm text-white font-medium">{{ libro.Titulo }}</td>
+          <td class="px-6 py-4 text-sm text-gray-300">{{ libro['Año'] || 'N/A' }}</td>
+          <td class="px-6 py-4 text-sm text-pink-400 font-semibold">
+            {{ libro.Precio ? '$' + libro.Precio : 'N/A' }}
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-300">{{ libro.Id_Autor }}</td>
+          <td class="px-6 py-4 text-sm text-gray-300">{{ libro.Id_Editorial }}</td>
+          <td class="px-6 py-4 text-center">
+            <button 
+              (click)="abrirModalEditar(libro)"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded mr-2 text-sm transition-colors">
+              Editar
+            </button>
+            <button 
+              (click)="eliminarLibro(libro)"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-sm transition-colors">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Sin libros -->
+    <div *ngIf="libros.length === 0" class="text-center py-8 text-gray-400">
+      No hay libros disponibles. ¡Crea el primero!
+    </div>
+  </div>
+
+  <!-- Modal para crear/editar -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 shadow-2xl">
+      <h2 class="text-2xl font-bold text-white mb-6">
+        {{ isEditMode ? 'Editar Libro' : 'Crear Nuevo Libro' }}
+      </h2>
+
+      <form (ngSubmit)="guardarLibro()" class="space-y-4">
+        <!-- Código -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Código *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="libroActual.Codigo_Libro" 
+            name="codigo"
+            required
+            [disabled]="isEditMode"
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: 12">
+        </div>
+
+        <!-- Título -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Título *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="libroActual.Titulo" 
+            name="titulo"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: Don Quijote">
+        </div>
+
+        <!-- Año -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Año</label>
+          <input 
+            type="text" 
+            [(ngModel)]="libroActual['Año']"
+            name="año"
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: 2023">
+        </div>
+
+        <!-- Precio -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Precio</label>
+          <input 
+            type="number" 
+            [(ngModel)]="libroActual.Precio" 
+            name="precio"
+            step="0.01"
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: 29.99">
+        </div>
+
+        <!-- ID Autor -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">ID Autor *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="libroActual.Id_Autor" 
+            name="autor"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: 0e2c4f97-e7bf-4e85-9432-5628a5137f90">
+        </div>
+
+        <!-- ID Editorial -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">ID Editorial *</label>
+          <input 
+            type="text" 
+            [(ngModel)]="libroActual.Id_Editorial" 
+            name="editorial"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: 91d65cb2-f5d8-40d5-84ac-847e6aae1c406">
+        </div>
+
+        <!-- Botones -->
+        <div class="flex gap-3 mt-6">
+          <button 
+            type="submit"
+            class="flex-1 bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg font-semibold transition-colors">
+            {{ isEditMode ? 'Actualizar' : 'Crear' }}
+          </button>
+          <button 
+            type="button"
+            (click)="cerrarModal()"
+            class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-semibold transition-colors">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
