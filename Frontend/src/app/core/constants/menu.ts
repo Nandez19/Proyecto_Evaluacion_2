@@ -19,21 +19,24 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Inicio',
           route: '/dashboard',
-          children: [{ label: 'Libros', route: '/dashboard/nfts' }],
         },
-        
+        {
+          icon: 'assets/icons/heroicons/outline/book-open.svg',
+          label: 'Libros',
+          route: '/dashboard/libros',
+        },
         {
           icon: 'assets/icons/heroicons/outline/cube.svg',
           label: 'Auditoria (Solo admin)',
           route: '/components',
-          children: [{ label: 'Usuarios', route: '/components/table' },
-          { label: 'Clientes', route: '/components/table_cliente' }
+          children: [
+            { label: 'Usuarios', route: '/components/table' },
+            { label: 'Clientes', route: '/components/table_cliente' },
+            { label: 'Gestión de Libros', route: '/dashboard/admin-libros' }, // Una sola página con tabs
           ],
         },
-        
       ],
     },
-   
     {
       group: 'Configuraciones',
       separator: false,

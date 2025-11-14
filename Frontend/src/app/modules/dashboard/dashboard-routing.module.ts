@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
-import { NftComponent } from './pages/nft/nft.component';
+import { LibrosComponent } from '../libros/libros.component';
+import { AdminLibrosComponent } from '../libros/pages/admin-libros/admin-libros.component'; // <- Importar
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
-      { path: '', redirectTo: 'nfts', pathMatch: 'full' },
-      { path: 'nfts', component: NftComponent },
+      { path: '', redirectTo: 'libros', pathMatch: 'full' },
+      { path: 'libros', component: LibrosComponent },
+      { path: 'admin-libros', component: AdminLibrosComponent }, // <- Agregar esta línea
       { path: '**', redirectTo: 'errors/404' },
     ],
   },
