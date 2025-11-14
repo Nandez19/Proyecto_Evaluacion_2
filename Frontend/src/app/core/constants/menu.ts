@@ -27,7 +27,8 @@ export class Menu {
           label: 'Auditoria (Solo admin)',
           route: '/components',
           children: [{ label: 'Usuarios', route: '/components/table' },
-          { label: 'Clientes', route: '/components/table_cliente' }
+          { label: 'Clientes', route: '/components/table_cliente' },
+          { label: 'Autores', route: '/components/table_autores' }
           ],
         },
         

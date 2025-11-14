@@ -37,17 +37,24 @@ export class TableClienteComponent implements OnInit {
   }
 
   /** Cargar lista de clientes desde la API */
-  private loadClientes(): void {
-    this.http
-      .get<Cliente[]>('http://127.0.0.1:8000/clientes/')
-      .subscribe({
-        next: (data) => this.clientes.set(data),
-        error: (error) => {
-          this.clientes.set([]); // carga vacía si hay error
-          this.handleRequestError(error);
-        },
-      });
-  }
+private loadClientes(): void {
+  const token = localStorage.getItem('token');
+  const headers = {
+    'Authorization': `Bearer ${token}`
+  };
+
+  this.http
+    .get<Cliente[]>('http://127.0.0.1:8000/clientes', { headers })
+    .subscribe({
+      next: (data) => {
+        this.clientes.set(data);
+      },
+      error: (error) => {
+        this.clientes.set([]);
+        this.handleRequestError(error);
+      },
+    });
+}
 
   /** Seleccionar o deseleccionar todos los clientes */
   public toggleClientes(checked: boolean): void {

@@ -12,6 +12,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'components', pathMatch: 'full' },
       { path: 'table', component: TableComponent },
       { path: 'table_cliente', component: TableClienteComponent },
+      { path: 'table_autores', component: TableClienteComponent },
       { path: '**', redirectTo: 'errors/404' },
     ],
   },
