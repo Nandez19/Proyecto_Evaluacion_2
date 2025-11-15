@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('../admin-autores/admin-autores.module')
           .then(m => m.AdminAutoresModule)
       },
+      { 
+        path: 'admin-editoriales', 
+        loadChildren: () => import('../Editoriales/admin-editoriales.module').then(m => m.AdminEditorialesModule) 
+      },
     ]
   },
   {

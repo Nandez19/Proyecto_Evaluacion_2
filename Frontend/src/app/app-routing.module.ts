@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'autores', 
     loadChildren: () => import('./modules/admin-autores/admin-autores.module').then(m => m.AdminAutoresModule) 
   },
+  { 
+    path: 'editoriales', 
+    loadChildren: () => import('./modules/Editoriales/admin-editoriales.module').then(m => m.AdminEditorialesModule) 
+  },
   { path: '**', redirectTo: 'errors/404' },
 ];
 
