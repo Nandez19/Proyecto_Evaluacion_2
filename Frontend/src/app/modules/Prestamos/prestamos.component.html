@@ -1,0 +1,162 @@
+<div class="container-prestamos p-6">
+  <!-- Header -->
+  <div class="header mb-6 flex justify-between items-center">
+    <h1 class="text-3xl font-bold text-white">Gestión de Préstamos</h1>
+    <button 
+      (click)="abrirModalCrear()"
+      class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+      + Crear Nuevo Préstamo
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center py-8">
+    <p class="text-gray-400">Cargando préstamos...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="bg-red-500/20 border border-red-500 text-red-200 p-4 rounded-lg mb-4">
+    {{ error }}
+  </div>
+
+  <!-- Tabla de préstamos -->
+  <div *ngIf="!loading && !error" class="bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+    <table class="w-full">
+      <thead class="bg-gray-900">
+        <tr>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Fecha Préstamo</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Fecha Devolución</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Estado</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Bibliotecario</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Cliente</th>
+          <th class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase">Libro</th>
+          <th class="px-6 py-4 text-center text-xs font-semibold text-gray-400 uppercase">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-700">
+        <tr *ngFor="let p of prestamos" class="hover:bg-gray-700/50 transition-colors">
+          <td class="px-6 py-4 text-sm text-gray-300">{{ p.Fecha_Prestamo | date:'yyyy-MM-dd' }}</td>
+          <td class="px-6 py-4 text-sm text-gray-300">
+            {{ p.Fecha_Devolucion ? (p.Fecha_Devolucion | date:'yyyy-MM-dd') : 'Sin devolver' }}
+          </td>
+          <td class="px-6 py-4 text-sm text-pink-400 font-medium">{{ p.Estado }}</td>
+          <td class="px-6 py-4 text-sm text-gray-300">{{ p.Id_Bibliotecario }}</td>
+          <td class="px-6 py-4 text-sm text-gray-300">{{ p.Id_Cliente }}</td>
+          <td class="px-6 py-4 text-sm text-gray-300">{{ p.Id_Libro }}</td>
+
+          <td class="px-6 py-4 text-center">
+            <button 
+              (click)="abrirModalEditar(p)"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded mr-2 text-sm transition-colors">
+              Editar
+            </button>
+            <button 
+              (click)="eliminarPrestamo(p)"
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded text-sm transition-colors">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Sin préstamos -->
+    <div *ngIf="prestamos.length === 0" class="text-center py-8 text-gray-400">
+      No hay préstamos registrados. ¡Crea el primero!
+    </div>
+  </div>
+
+  <!-- Modal para crear/editar -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 shadow-2xl">
+      <h2 class="text-2xl font-bold text-white mb-6">
+        {{ isEditMode ? 'Editar Préstamo' : 'Crear Nuevo Préstamo' }}
+      </h2>
+
+      <form (ngSubmit)="guardarPrestamo()" class="space-y-4">
+
+        <!-- Fecha Préstamo -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Fecha de Préstamo *</label>
+          <input 
+            type="date"
+            [(ngModel)]="prestamoActual.Fecha_Prestamo"
+            name="fechaPrestamo"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+        </div>
+
+        <!-- Fecha Devolución -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Fecha de Devolución</label>
+          <input 
+            type="date"
+            [(ngModel)]="prestamoActual.Fecha_Devolucion"
+            name="fechaDevolucion"
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">Estado *</label>
+          <input 
+            type="text"
+            [(ngModel)]="prestamoActual.Estado"
+            name="estado"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            placeholder="Ej: Prestado / Devuelto">
+        </div>
+
+        <!-- Bibliotecario -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">ID Bibliotecario *</label>
+          <input 
+            type="text"
+            [(ngModel)]="prestamoActual.Id_Bibliotecario"
+            name="bibliotecario"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+        </div>
+
+        <!-- Cliente -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">ID Cliente *</label>
+          <input 
+            type="text"
+            [(ngModel)]="prestamoActual.Id_Cliente"
+            name="cliente"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+        </div>
+
+        <!-- Libro -->
+        <div>
+          <label class="block text-gray-300 text-sm font-semibold mb-2">ID Libro *</label>
+          <input 
+            type="text"
+            [(ngModel)]="prestamoActual.Id_Libro"
+            name="libro"
+            required
+            class="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+        </div>
+
+        <!-- Botones -->
+        <div class="flex gap-3 mt-6">
+          <button 
+            type="submit"
+            class="flex-1 bg-pink-600 hover:bg-pink-700 text-white py-2 rounded-lg font-semibold transition-colors">
+            {{ isEditMode ? 'Actualizar' : 'Crear' }}
+          </button>
+          <button 
+            type="button"
+            (click)="cerrarModal()"
+            class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg font-semibold transition-colors">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

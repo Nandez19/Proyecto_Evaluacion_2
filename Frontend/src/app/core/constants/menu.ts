@@ -34,6 +34,7 @@ export class Menu {
             { label: 'Clientes', route: '/components/table_cliente' },
             { label: 'Gestión de Libros', route: '/dashboard/admin-libros' }, // Una sola página con tabs
             { label: 'Gestión de Autores', route: '/dashboard/admin-autores' },
+            { label: 'Gestión de Préstamos', route: '/dashboard/Prestamos' },
           ],
         },
       ],
