@@ -6,35 +6,37 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { AuthInterceptor } from './app/core/interceptor/auth.interceptor'; // 👈 asegúrate que la carpeta sea plural "interceptors"
+import { AuthInterceptor } from './app/core/interceptor/auth.interceptor';
 
+// ✅ Habilitar modo producción si aplica
 if (environment.production) {
   enableProdMode();
-  if (window) selfXSSWarning();
+  if (typeof window !== 'undefined') selfXSSWarning();
 }
 
+// ✅ Bootstrap principal con providers
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule, AppRoutingModule),
+    importProvidersFrom(
+      BrowserModule,
+      AppRoutingModule
+    ),
     provideAnimations(),
     provideZonelessChangeDetection(),
-
-    // ✅ Registrar interceptor globalmente (no necesitas withInterceptorsFromDi)
-    provideHttpClient(
-      withInterceptors([AuthInterceptor])
-    ),
+    provideHttpClient(withInterceptors([AuthInterceptor])),
   ],
 }).catch((err) => console.error(err));
 
+// ⚠️ Mensaje de advertencia en consola
 function selfXSSWarning() {
   setTimeout(() => {
     console.log(
-      '%c** STOP **',
-      'font-weight:bold; font: 2.5em Arial; color: white; background-color: #e11d48; padding: 5px 15px; border-radius: 25px;',
+      '%c⚠️ STOP!',
+      'font-weight:bold; font: 2.5em Arial; color: white; background-color: #e11d48; padding: 5px 15px; border-radius: 25px;'
     );
     console.log(
-      `%cThis is a browser feature intended for developers. Using this console may allow attackers to impersonate you and steal your information. Do not paste code you don't understand.`,
-      'font-weight:bold; font: 1.5em Arial; color: #e11d48;',
+      `%cThis console is intended for developers. Pasting code here can give attackers access to your data.`,
+      'font-weight:bold; font: 1.2em Arial; color: #e11d48;'
     );
   });
 }
