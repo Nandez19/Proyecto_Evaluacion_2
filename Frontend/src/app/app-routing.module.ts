@@ -18,12 +18,22 @@ const routes: Routes = [
     path: 'libros', 
     loadChildren: () => import('./modules/libros/libros.module').then(m => m.LibrosModule) 
   },
-  // ⭐ NUEVA RUTA DE AUTORES
+
   { 
     path: 'autores', 
     loadChildren: () => import('./modules/admin-autores/admin-autores.module').then(m => m.AdminAutoresModule) 
+    
   },
-  { path: '**', redirectTo: 'errors/404' },
+     { 
+    path: 'bibliotecarios', 
+    loadChildren: () => import('./modules/admin-bibliotecarios/admin-bibliotecarios.module').then(m => m.AdminBibliotecariosModule) 
+  },
+  { 
+    path: 'clientes', 
+    loadChildren: () => import('./modules/admin-clientes/admin-clientes.module').then(m => m.AdminClientesModule) 
+  },
+
+  { path: '**', redirectTo: 'errors/404' }
 ];
 
 @NgModule({

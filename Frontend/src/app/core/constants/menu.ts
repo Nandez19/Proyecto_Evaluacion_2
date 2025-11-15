@@ -33,7 +33,9 @@ export class Menu {
             { label: 'Usuarios', route: '/components/table' },
             { label: 'Clientes', route: '/components/table_cliente' },
             { label: 'Gestión de Libros', route: '/dashboard/admin-libros' }, // Una sola página con tabs
-            { label: 'Gestión de Autores', route: '/dashboard/admin-autores' },
+            { label: 'Autores', route: '/dashboard/admin-autores' },
+            { label: 'Bibliotecarios', route: '/dashboard/admin-bibliotecarios' },
+            { label: 'Clientes', route: '/dashboard/admin-clientes' }
           ],
         },
       ],
