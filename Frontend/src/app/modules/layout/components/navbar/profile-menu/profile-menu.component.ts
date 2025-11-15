@@ -98,9 +98,9 @@ export class ProfileMenuComponent implements OnInit {
     this.themeService.theme.update((theme) => ({ ...theme, direction: value }));
   }
 
-  // MODIFICACIÓN 3: Agregar la redirección después de cerrar sesión
+
   logout(): void {
-    this.authService.logout(); // Cierra la sesión (elimina token, etc.)
-    this.router.navigate(['/auth']); // <--- Redirige a la ruta de login/sign-in
+    this.authService.logout(); 
+    this.router.navigate(['/auth']); 
   }
 }

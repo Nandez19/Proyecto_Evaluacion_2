@@ -36,6 +36,7 @@ export class SignUpComponent implements OnInit {
       alert('Todos los campos son obligatorios');
       return;
     }
+    
 
     if (this.password.length < 8) {
       alert('La contraseña debe tener al menos 8 caracteres');
