@@ -18,7 +18,6 @@ export class PrestamosComponent implements OnInit {
 
   showModal = false;
   isEditMode = false;
-
   prestamoActual: PrestamoCreate = this.getEmptyPrestamo();
   idEditando: string | null = null;
 
@@ -35,20 +34,29 @@ export class PrestamosComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.prestamosService.getPrestamos().subscribe({
-      next: (resp) => {
-        console.log("Respuesta backend:", resp);
+    console.log('🔄 Cargando préstamos...');
 
-        this.prestamos = resp?.data ?? [];
+    this.prestamosService.getPrestamos().subscribe({
+      next: (data) => {
+        console.log('✅ Datos recibidos:', data);
+
+        if (Array.isArray(data)) {
+          this.prestamos = data;
+        } else {
+          console.error('⚠ La respuesta no es un array:', data);
+          this.prestamos = [];
+        }
 
         this.loading = false;
         this.cdr.detectChanges();
       },
-      error: () => {
-        this.error = 'No se pudieron cargar los préstamos';
+      error: (err) => {
+        console.error('❌ Error al cargar préstamos:', err);
+        this.error = 'No se pudieron cargar los préstamos: ' + (err.message || 'Error desconocido');
         this.loading = false;
         this.cdr.detectChanges();
-      }
+      },
+      complete: () => console.log('✔ Carga completada')
     });
   }
 
@@ -82,7 +90,6 @@ export class PrestamosComponent implements OnInit {
   }
 
   guardarPrestamo(): void {
-
     const prestamoParaGuardar: PrestamoCreate = {
       Fecha_Prestamo: new Date(this.prestamoActual.Fecha_Prestamo),
       Fecha_Devolucion: this.prestamoActual.Fecha_Devolucion
@@ -94,9 +101,7 @@ export class PrestamosComponent implements OnInit {
       Id_Libro: this.prestamoActual.Id_Libro,
     };
 
-    /** EDITAR */
     if (this.isEditMode && this.idEditando) {
-
       this.prestamosService.updatePrestamo(this.idEditando, prestamoParaGuardar).subscribe({
         next: () => {
           alert('Préstamo actualizado exitosamente');
@@ -107,10 +112,7 @@ export class PrestamosComponent implements OnInit {
           alert('Error al actualizar: ' + (err.error?.detail || err.message));
         }
       });
-
     } else {
-
-      /** CREAR */
       this.prestamosService.createPrestamo(prestamoParaGuardar).subscribe({
         next: () => {
           alert('Préstamo creado exitosamente');
@@ -132,7 +134,7 @@ export class PrestamosComponent implements OnInit {
       return;
     }
 
-    if (confirm(`¿Seguro deseas eliminar este préstamo?`)) {
+    if (confirm('¿Seguro deseas eliminar este préstamo?')) {
       this.prestamosService.deletePrestamo(id).subscribe({
         next: () => {
           alert('Préstamo eliminado');

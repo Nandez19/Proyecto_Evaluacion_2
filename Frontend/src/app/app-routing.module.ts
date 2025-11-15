@@ -4,6 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full'
+  },
+
+  {
+    path: '',
     loadChildren: () => import('./modules/layout/layout.module').then((m) => m.LayoutModule),
   },
   {
@@ -14,6 +20,15 @@ const routes: Routes = [
     path: 'errors',
     loadChildren: () => import('./modules/error/error.module').then((m) => m.ErrorModule),
   },
+   { 
+    path: 'bibliotecarios', 
+    loadChildren: () => import('./modules/admin-bibliotecarios/admin-bibliotecarios.module').then(m => m.AdminBibliotecariosModule) 
+  },
+  { 
+    path: 'clientes', 
+    loadChildren: () => import('./modules/admin-clientes/admin-clientes.module').then(m => m.AdminClientesModule) 
+  },
+
   { 
     path: 'libros', 
     loadChildren: () => import('./modules/libros/libros.module').then(m => m.LibrosModule) 

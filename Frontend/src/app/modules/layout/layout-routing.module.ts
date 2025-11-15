@@ -16,6 +16,16 @@ const routes: Routes = [
         loadChildren: () => import('../admin-autores/admin-autores.module')
           .then(m => m.AdminAutoresModule)
       },
+      {
+        path: 'admin-bibliotecarios',
+        loadChildren: () => import('../admin-bibliotecarios/admin-bibliotecarios.module')
+          .then(m => m.AdminBibliotecariosModule)
+      },
+      {
+        path: 'admin-clientes',
+        loadChildren: () => import('../admin-clientes/admin-clientes.module')
+          .then(m => m.AdminClientesModule)
+},
     ]
   },
   {

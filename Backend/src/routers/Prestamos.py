@@ -47,21 +47,8 @@ def get_all_prestamos(db: Session = Depends(get_db)):
     if not prestamos:
         raise HTTPException(status_code=404, detail="No hay préstamos registrados")
 
-    return JSONResponse(
-        status_code=200,
-        content={
-            "detail": "Lista de préstamos obtenida correctamente",
-            "data": [
-                {
-                    "Id_Prestamo": str(p.Id_Prestamo),
-                    "Fecha_Prestamo": str(p.Fecha_Prestamo),
-                    "Fecha_Devolucion": str(p.Fecha_Devolucion),
-                    "Estado": p.Estado,
-                }
-                for p in prestamos
-            ],
-        },
-    )
+    return prestamos  # ✅ CAMBIAR: Devuelve directamente (como en libros)
+
 
 
 """ ✅ Obtener un préstamo por ID"""

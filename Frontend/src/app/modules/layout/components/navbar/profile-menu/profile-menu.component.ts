@@ -1,7 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+// MODIFICACIÓN 1: Importar el servicio Router
+import { Router, RouterLink } from '@angular/router'; 
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
@@ -39,16 +40,21 @@ export class ProfileMenuComponent implements OnInit {
   public isOpen = false;
   public user: any = null;
 
+  // Lista de menú sin la opción "Log out" (se mueve al botón dedicado en HTML)
   public profileMenu = [
     { title: 'Your Profile', icon: './assets/icons/heroicons/outline/user-circle.svg', link: '/profile' },
     { title: 'Settings', icon: './assets/icons/heroicons/outline/cog-6-tooth.svg', link: '/settings' },
-    { title: 'Log out', icon: './assets/icons/heroicons/outline/logout.svg', link: '/auth' },
   ];
 
   public themeMode = ['light', 'dark'];
   public themeDirection = ['ltr', 'rtl'];
 
-  constructor(public themeService: ThemeService, public authService: AuthService) {}
+  // MODIFICACIÓN 2: Inyectar el Router en el constructor
+  constructor(
+    public themeService: ThemeService, 
+    public authService: AuthService,
+    private router: Router // <--- Inyección del Router
+  ) {}
 
   ngOnInit(): void {
     this.loadUser();
@@ -58,15 +64,12 @@ export class ProfileMenuComponent implements OnInit {
   // Cargar usuario
   // -------------------------
   private loadUser(): void {
-    // Primero intenta desde el servicio (que puede traer usuario desde login o localStorage)
     this.user = this.authService.getUser();
 
     if (!this.user) {
-      // Si no hay usuario guardado, intenta parsear el token JWT
       this.user = this.authService.getUserFromToken();
     }
 
-    // Si sigue sin usuario, usar valores por defecto
     if (!this.user) {
       this.user = {
         Nombre: 'Usuario',
@@ -95,7 +98,9 @@ export class ProfileMenuComponent implements OnInit {
     this.themeService.theme.update((theme) => ({ ...theme, direction: value }));
   }
 
+
   logout(): void {
-    this.authService.logout(); // Llamada al logout del AuthService
-  }
+    this.authService.logout(); 
+    this.router.navigate(['/auth']); 
+  }
 }

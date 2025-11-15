@@ -31,39 +31,15 @@ export class Menu {
           route: '/components',
           children: [
             { label: 'Usuarios', route: '/components/table' },
-            { label: 'Clientes', route: '/components/table_cliente' },
             { label: 'Gestión de Libros', route: '/dashboard/admin-libros' }, // Una sola página con tabs
             { label: 'Gestión de Autores', route: '/dashboard/admin-autores' },
             { label: 'Gestión de Préstamos', route: '/dashboard/Prestamos' },
+            { label: 'Gestión de Bibliotecarios', route: '/dashboard/admin-bibliotecarios' },
+            { label: 'Gestión de Clientes', route: '/dashboard/admin-clientes' },
           ],
         },
       ],
     },
-    {
-      group: 'Configuraciones',
-      separator: false,
-      items: [
-        {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Ajustes',
-          route: '/settings',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'Notificaciones',
-          route: '/gift',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/folder.svg',
-          label: 'Folders',
-          route: '/folders',
-          children: [
-            { label: 'Current Files', route: '/folders/current-files' },
-            { label: 'Downloads', route: '/folders/download' },
-            { label: 'Trash', route: '/folders/trash' },
-          ],
-        },
-      ],
-    },
+    
   ];
 }
