@@ -1,0 +1,19 @@
+<div class="flex h-screen w-screen">
+  <div class="auth-bg bg-primary hidden flex-1 items-center justify-center bg-cover bg-center lg:flex">
+    <div class="max-w-2xl space-y-4 p-8 text-center text-white bg-black/50 rounded-xl">
+
+    </div>
+  </div>
+
+  <div class="bg-background flex flex-1 items-center justify-center">
+    <div class="max-w-md overflow-y-auto px-4 sm:w-[500px]">
+      <div class="flex items-center justify-center gap-3">
+        <a class="bg-primary rounded-sm p-2 flex items-center justify-center w-13 h-13">
+  <svg-icon src="assets/icons/file.svg" [svgClass]="'w-full h-full'"></svg-icon>
+</a>
+        <b class="text-md text-foreground font-bold">Biblioteca ITM</b>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
