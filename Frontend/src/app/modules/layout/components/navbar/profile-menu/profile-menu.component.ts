@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
+import { AuthService } from 'src/app/modules/auth/pages/sign-in/services/auth.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -19,7 +20,7 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/click-ou
           opacity: 1,
           transform: 'translateY(0)',
           visibility: 'visible',
-        }),
+        })
       ),
       state(
         'closed',
@@ -27,7 +28,7 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/click-ou
           opacity: 0,
           transform: 'translateY(-20px)',
           visibility: 'hidden',
-        }),
+        })
       ),
       transition('open => closed', [animate('0.2s')]),
       transition('closed => open', [animate('0.2s')]),
@@ -36,82 +37,65 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/click-ou
 })
 export class ProfileMenuComponent implements OnInit {
   public isOpen = false;
-  public profileMenu = [
-    {
-      title: 'Your Profile',
-      icon: './assets/icons/heroicons/outline/user-circle.svg',
-      link: '/profile',
-    },
-    {
-      title: 'Settings',
-      icon: './assets/icons/heroicons/outline/cog-6-tooth.svg',
-      link: '/settings',
-    },
-    {
-      title: 'Log out',
-      icon: './assets/icons/heroicons/outline/logout.svg',
-      link: '/auth',
-    },
-  ];
+  public user: any = null;
 
-  public themeColors = [
-    {
-      name: 'base',
-      code: '#e11d48',
-    },
-    {
-      name: 'yellow',
-      code: '#f59e0b',
-    },
-    {
-      name: 'green',
-      code: '#22c55e',
-    },
-    {
-      name: 'blue',
-      code: '#3b82f6',
-    },
-    {
-      name: 'orange',
-      code: '#ea580c',
-    },
-    {
-      name: 'red',
-      code: '#cc0022',
-    },
-    {
-      name: 'violet',
-      code: '#6d28d9',
-    },
+  public profileMenu = [
+    { title: 'Your Profile', icon: './assets/icons/heroicons/outline/user-circle.svg', link: '/profile' },
+    { title: 'Settings', icon: './assets/icons/heroicons/outline/cog-6-tooth.svg', link: '/settings' },
+    { title: 'Log out', icon: './assets/icons/heroicons/outline/logout.svg', link: '/auth' },
   ];
 
   public themeMode = ['light', 'dark'];
- 
+  public themeDirection = ['ltr', 'rtl'];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService, public authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadUser();
+  }
 
-  public toggleMenu(): void {
+  // -------------------------
+  // Cargar usuario
+  // -------------------------
+  private loadUser(): void {
+    // Primero intenta desde el servicio (que puede traer usuario desde login o localStorage)
+    this.user = this.authService.getUser();
+
+    if (!this.user) {
+      // Si no hay usuario guardado, intenta parsear el token JWT
+      this.user = this.authService.getUserFromToken();
+    }
+
+    // Si sigue sin usuario, usar valores por defecto
+    if (!this.user) {
+      this.user = {
+        Nombre: 'Usuario',
+        Correo: 'correo@ejemplo.com',
+        avatar: 'https://avatars.githubusercontent.com/u/12519008?v=4',
+      };
+    }
+  }
+
+  toggleMenu(): void {
     this.isOpen = !this.isOpen;
   }
 
   toggleThemeMode() {
     this.themeService.theme.update((theme) => {
       const mode = !this.themeService.isDark ? 'dark' : 'light';
-      return { ...theme, mode: mode };
+      return { ...theme, mode };
     });
   }
 
   toggleThemeColor(color: string) {
-    this.themeService.theme.update((theme) => {
-      return { ...theme, color: color };
-    });
+    this.themeService.theme.update((theme) => ({ ...theme, color }));
   }
 
   setDirection(value: string) {
-    this.themeService.theme.update((theme) => {
-      return { ...theme, direction: value };
-    });
+    this.themeService.theme.update((theme) => ({ ...theme, direction: value }));
+  }
+
+  logout(): void {
+    this.authService.logout(); // Llamada al logout del AuthService
   }
 }

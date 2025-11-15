@@ -50,7 +50,7 @@ export class SignInComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // 🚫 Validar formulario antes de enviar
+    // Validar formulario antes de enviar
     if (this.form.invalid) {
       alert('Por favor completa todos los campos.');
       return;
@@ -59,30 +59,30 @@ export class SignInComponent implements OnInit {
     const { username, password } = this.form.value;
     this.loading = true;
 
-    // 🔹 Llamada al servicio de autenticación
+    // Llamada al servicio de autenticación
     this.authService.login(username, password).subscribe({
       next: (res) => {
         this.loading = false;
-        console.log('📦 Respuesta del backend:', res);
+        console.log('Respuesta del backend:', res);
 
-        // ✅ Verifica si el token llega correctamente
+        // Verifica si el token llega correctamente
         if (res && res.access_token) {
           localStorage.setItem('token', res.access_token);
-          console.log('✅ Token guardado en localStorage:', res.access_token);
+          console.log('Token guardado en localStorage:', res.access_token);
 
           // Mensaje de bienvenida
           alert(`Bienvenido ${res.user?.Nombre || username}!`);
 
-          // 🔹 Redirige al dashboard
+          // Redirige al dashboard
           this.router.navigate(['/dashboard']);
         } else {
-          console.warn('⚠️ No se recibió un token en la respuesta del backend');
+          console.warn('No se recibió un token en la respuesta del backend');
           alert('No se recibió token. Revisa el backend o la estructura de la respuesta.');
         }
       },
       error: (err) => {
         this.loading = false;
-        console.error('❌ Error en login:', err);
+        console.error('Error en login:', err);
 
         // Mensaje de error amigable
         const mensaje =
