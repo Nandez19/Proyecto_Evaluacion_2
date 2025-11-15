@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LibroFormComponent } from './libro-form.component';
+import { AdminAutoresComponent } from './admin-autores.component';
 
-describe('LibroFormComponent', () => {
-  let component: LibroFormComponent;
-  let fixture: ComponentFixture<LibroFormComponent>;
+describe('AdminAutoresComponent', () => {
+  let component: AdminAutoresComponent;
+  let fixture: ComponentFixture<AdminAutoresComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LibroFormComponent]
+      imports: [AdminAutoresComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LibroFormComponent);
+    fixture = TestBed.createComponent(AdminAutoresComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

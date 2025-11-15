@@ -18,7 +18,7 @@ class EditorialCreate(EditorialBase):
 
 
 class EditorialResponse(EditorialBase):
-
+    Id_Editorial: UUID  # ← AGREGAR ESTA LÍNEA
     Id_usuario_creacion: Optional[UUID] = None
     Id_usuario_actualizacion: Optional[UUID] = None
     Fecha_creacion: Optional[datetime] = None

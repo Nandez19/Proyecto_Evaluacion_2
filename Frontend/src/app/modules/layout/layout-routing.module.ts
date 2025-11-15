@@ -6,7 +6,17 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: LayoutComponent,
-    loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
+      },
+      {
+        path: 'admin-autores',
+        loadChildren: () => import('../admin-autores/admin-autores.module')
+          .then(m => m.AdminAutoresModule)
+      },
+    ]
   },
   {
     path: 'components',

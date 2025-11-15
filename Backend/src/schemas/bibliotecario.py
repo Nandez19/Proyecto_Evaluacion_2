@@ -19,7 +19,7 @@ class BibliotecarioCreate(BibliotecarioBase):
 
 
 class BibliotecarioResponse(BibliotecarioBase):
-
+    Id_Bibliotecario: UUID  # ← AGREGAR ESTA LÍNEA
     Id_usuario_creacion: Optional[UUID] = None
     Id_usuario_actualizacion: Optional[UUID] = None
     Fecha_creacion: Optional[datetime] = None

@@ -33,11 +33,11 @@ def create_initial_users():
                 Rol="Admin",
             ),
             UserCreate(
-                Username="Emmanuel",
+                Username="emmanuel",
                 Correo="Emmanuel@example.com",
                 Telefono="3008964725",
                 Nombre="Bibliotecario",
-                password="goblin123",
+                password="emma123",
                 Rol="Bibliotecario",
             ),
             UserCreate(
