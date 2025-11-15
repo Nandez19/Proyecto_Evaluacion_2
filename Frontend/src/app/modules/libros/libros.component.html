@@ -1,0 +1,54 @@
+<div class="container-libros">
+  <div class="header">
+    <h1>Bienvenidos a la Biblioteca</h1>
+    <p class="breadcrumb">Inicio > Libros</p>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <p>Cargando libros...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <!-- Grid de libros (reemplaza los NFTs) -->
+  <div *ngIf="!loading && !error" class="libros-grid">
+    <div *ngFor="let libro of libros" class="libro-card">
+      <div class="libro-imagen">
+        <!-- Imagen placeholder por ahora -->
+        <div class="libro-placeholder">
+          <span class="libro-icono">📚</span>
+        </div>
+      </div>
+      
+      <div class="libro-info">
+        <h3 class="libro-titulo">{{ libro.Titulo }}</h3>
+        <p class="libro-codigo">Código: {{ libro.Codigo_Libro }}</p>
+        
+        <div class="libro-detalles">
+          <div class="detalle-item">
+            <span class="detalle-label">Año:</span>
+            <span class="detalle-valor">{{ libro['Año'] || 'N/A' }}</span>
+          </div>
+          
+          <div class="detalle-item" *ngIf="libro.Precio">
+            <span class="detalle-label">Precio:</span>
+            <span class="detalle-precio">${{ libro.Precio }}</span>
+          </div>
+        </div>
+
+        <div class="libro-acciones">
+          <button class="btn-ver">Ver Detalles</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje si no hay libros -->
+    <div *ngIf="libros.length === 0" class="sin-libros">
+      <p>No hay libros disponibles en este momento.</p>
+    </div>
+  </div>
+</div>
