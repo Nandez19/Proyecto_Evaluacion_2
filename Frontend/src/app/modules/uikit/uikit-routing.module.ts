@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UikitComponent } from './uikit.component';
 import { TableComponent } from './pages/table/table.component';
 import { TableClienteComponent } from './pages/table_cliente/table-cliente.component';
+import { TableAutorComponent } from './pages/table_autores/table-autor.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'components', pathMatch: 'full' },
       { path: 'table', component: TableComponent },
       { path: 'table_cliente', component: TableClienteComponent },
+      { path: 'table_autores', component: TableAutorComponent },
       { path: '**', redirectTo: 'errors/404' },
     ],
   },
