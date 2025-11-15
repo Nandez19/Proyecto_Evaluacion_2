@@ -37,17 +37,46 @@ export class TableClienteComponent implements OnInit {
   }
 
   /** Cargar lista de clientes desde la API */
-  private loadClientes(): void {
-    this.http
-      .get<Cliente[]>('http://127.0.0.1:8000/clientes/')
-      .subscribe({
-        next: (data) => this.clientes.set(data),
-        error: (error) => {
-          this.clientes.set([]); // carga vacía si hay error
-          this.handleRequestError(error);
-        },
-      });
-  }
+private loadClientes(): void {
+  const token = localStorage.getItem('token');
+  console.log('🔑 Token encontrado:', token ? 'SÍ ✅' : 'NO ❌');
+
+  const headers = {
+    'Authorization': `Bearer ${token}`
+  };
+
+  console.log('📤 Haciendo petición a:', 'http://127.0.0.1:8000/clientes');
+  console.log('📤 Headers:', headers);
+
+  this.http
+    .get<Cliente[]>('http://127.0.0.1:8000/clientes', { headers })
+    .subscribe({
+      next: (data) => {
+        console.log("✅ ÉXITO - Datos recibidos:", data);
+        console.log("📊 Cantidad de clientes:", data.length);
+        this.clientes.set(data);
+      },
+      error: (error) => {
+        console.log("❌ ERROR COMPLETO:", error);
+        console.log("❌ Status:", error.status);
+        console.log("❌ StatusText:", error.statusText);
+        console.log("❌ Error message:", error.error);
+        console.log("❌ URL que falló:", error.url);
+        
+        // Si es 401, el token expiró o es inválido
+        if (error.status === 401) {
+          console.log("🚨 TOKEN INVÁLIDO O EXPIRADO");
+          toast.error('Sesión expirada', {
+            position: 'bottom-right',
+            description: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+          });
+        }
+        
+        this.clientes.set([]);
+        this.handleRequestError(error);
+      },
+    });
+}
 
   /** Seleccionar o deseleccionar todos los clientes */
   public toggleClientes(checked: boolean): void {

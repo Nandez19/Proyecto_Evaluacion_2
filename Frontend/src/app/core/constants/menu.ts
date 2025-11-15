@@ -10,9 +10,18 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
           label: 'Auth',
           route: '/auth',
+          roles: [], // 👈 Array vacío = visible para todos (incluso sin login)
           children: [
-            { label: 'Registrarse', route: '/auth/sign-up' },
-            { label: 'Entrar', route: '/auth/sign-in' },
+            { 
+              label: 'Registrarse', 
+              route: '/auth/sign-up',
+              roles: [] // 👈 Todos pueden registrarse
+            },
+            { 
+              label: 'Entrar', 
+              route: '/auth/sign-in',
+              roles: [] // 👈 Todos pueden entrar
+            },
           ],
         },
         {
@@ -25,9 +34,18 @@ export class Menu {
           label: 'Libros',
           route: '/dashboard/libros',
         },
+          roles: ['Administrador'], // 👈 Todos los autenticados
+          children: [
+            { 
+              label: 'Libros', 
+              route: '/dashboard/nfts',
+              roles: [] // 👈 Todos
+            }
+          ],
+        },
         {
           icon: 'assets/icons/heroicons/outline/cube.svg',
-          label: 'Auditoria (Solo admin)',
+          label: 'Auditoría', // 👈 Cambié el texto
           route: '/components',
           children: [
             { label: 'Gestión de Libros', route: '/dashboard/admin-libros' }, // Una sola página con tabs
@@ -35,6 +53,23 @@ export class Menu {
             { label: 'Bibliotecarios', route: '/dashboard/admin-bibliotecarios' },
             { label: 'Clientes', route: '/dashboard/admin-clientes' },
             { label: 'Usuarios', route: '/components/table' }
+          roles: ['Administrador'], // 👈 Solo admin y gerente VEN este grupo
+          children: [
+            { 
+              label: 'Usuarios', 
+              route: '/components/table',
+              roles: ['Administrador'] // 👈 Solo admin y gerente
+            },
+            { 
+              label: 'Clientes', 
+              route: '/components/table_cliente',
+              roles: ['Administrador']// 👈 Admin, gerente y vendedor
+            },
+            { 
+              label: 'Autores', 
+              route: '/components/table_autores',
+              roles: ['Administrador'] // 👈 Solo admin
+            }
           ],
         },
       ],
