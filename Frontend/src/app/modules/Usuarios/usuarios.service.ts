@@ -35,7 +35,7 @@ export class UsuariosService {
 
   constructor(private http: HttpClient) {}
 
-  // Crear usuario
+
   createUsuario(usuario: UserCreate): Observable<UserResponse> {
     return this.http.post<UserResponse>(this.registerUrl, usuario).pipe(
       tap({
@@ -45,7 +45,7 @@ export class UsuariosService {
     );
   }
 
-  // Obtener usuario logeado
+ 
   getUsuario(): Observable<UserResponse> {
     return this.http.get<UserResponse>(this.meUrl).pipe(
       tap({
@@ -55,7 +55,7 @@ export class UsuariosService {
     );
   }
 
-  // Obtener TODOS los usuarios
+  
   getUsuarios(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(this.usuariosUrl).pipe(
       tap({

@@ -17,7 +17,7 @@ export class UsuariosComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  // Modal solo para crear
+  
   showModal = false;
 
   usuarioActual = this.getEmptyUsuario();
@@ -31,9 +31,7 @@ export class UsuariosComponent implements OnInit {
     this.cargarUsuarios();
   }
 
-  // ================================
-  // 🔹 Cargar usuarios
-  // ================================
+ 
   cargarUsuarios(): void {
     this.loading = true;
     this.error = null;
@@ -51,9 +49,7 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  // ================================
-  // 🔹 Modal Crear Usuario
-  // ================================
+ 
   abrirModalCrear() {
     this.usuarioActual = this.getEmptyUsuario();
     this.showModal = true;
@@ -64,9 +60,7 @@ export class UsuariosComponent implements OnInit {
     this.usuarioActual = this.getEmptyUsuario();
   }
 
-  // ================================
-  // 🔹 Guardar usuario (solo crear)
-  // ================================
+ 
   guardarUsuario(): void {
     const data: UserCreate = {
       Username: this.usuarioActual.Username,
@@ -89,9 +83,7 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  // ================================
-  // 🔹 Objeto vacío
-  // ================================
+
   private getEmptyUsuario() {
     return {
       Username: "",
