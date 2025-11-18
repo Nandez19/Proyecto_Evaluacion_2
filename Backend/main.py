@@ -8,7 +8,6 @@ from Database.conexion import DATABASE_URL
 from src.entities import __all__
 from Database.conexion import *
 from usuarios_iniciales import create_all_initial_data
-
 from src.routers import (
     auth,
     Autores,
@@ -45,7 +44,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -18,6 +18,7 @@ export class AdminAutoresComponent implements OnInit {
   showModal = false;
   isEditMode = false;
   autorActual: AutorCreate = this.getEmptyAutor();
+  idEditando: string | null = null; // ← Solo necesitamos esto
 
   constructor(
     private autoresService: AutoresService,
@@ -52,70 +53,90 @@ export class AdminAutoresComponent implements OnInit {
 
   abrirModalCrear(): void {
     this.isEditMode = false;
+    this.idEditando = null;
     this.autorActual = this.getEmptyAutor();
     this.showModal = true;
   }
 
   abrirModalEditar(autor: AutorResponse): void {
+    console.log('✏️ Editando autor:', autor);
     this.isEditMode = true;
+    this.idEditando = autor.Id_Autor; // ← Guardamos solo el ID
+    
+    // autorActual solo contiene los campos editables
     this.autorActual = {
       Cedula_Autor: autor.Cedula_Autor,
       Nombre: autor.Nombre,
       Telefono: autor.Telefono,
-      Edad: String(autor.Edad)  // ← Asegurar que sea string
+      Edad: String(autor.Edad)
     };
+    
     this.showModal = true;
   }
+
   cerrarModal(): void {
     this.showModal = false;
     this.autorActual = this.getEmptyAutor();
+    this.idEditando = null;
   }
 
   guardarAutor(): void {
-  console.log('💾 Guardando autor:', this.autorActual);
-  
-  // ✅ Asegurar que Edad sea string
-  const autorParaGuardar: AutorCreate = {
-    Cedula_Autor: this.autorActual.Cedula_Autor.trim(),
-    Nombre: this.autorActual.Nombre.trim(),
-    Telefono: this.autorActual.Telefono.trim(),
-    Edad: String(this.autorActual.Edad || '')  // ← Convertir a string
-  };
-  
-  console.log('📤 Autor transformado:', autorParaGuardar);
-  
-  if (this.isEditMode) {
-    const autor = this.autores.find(a => a.Cedula_Autor === this.autorActual.Cedula_Autor);
-    if (autor) {
-      this.autoresService.updateAutor(autor.Id_Autor, autorParaGuardar).subscribe({
+    console.log('💾 Guardando autor:', this.autorActual);
+    
+    // Validación básica
+    if (!this.autorActual.Cedula_Autor.trim() || 
+        !this.autorActual.Nombre.trim() || 
+        !this.autorActual.Telefono.trim() || 
+        !this.autorActual.Edad) {
+      alert('Por favor complete todos los campos');
+      return;
+    }
+    
+    const autorParaGuardar: AutorCreate = {
+      Cedula_Autor: this.autorActual.Cedula_Autor.trim(),
+      Nombre: this.autorActual.Nombre.trim(),
+      Telefono: this.autorActual.Telefono.trim(),
+      Edad: String(this.autorActual.Edad || '')
+    };
+    
+    console.log('📤 Autor transformado:', autorParaGuardar);
+    
+    if (this.isEditMode && this.idEditando) {
+      // ✅ Usar el ID guardado en lugar de buscar por Cedula_Autor
+      console.log('🔄 Actualizando autor con ID:', this.idEditando);
+      
+      this.autoresService.updateAutor(this.idEditando, autorParaGuardar).subscribe({
         next: () => {
+          console.log('✅ Autor actualizado');
           alert('Autor actualizado exitosamente');
           this.cargarAutores();
           this.cerrarModal();
         },
         error: (err) => {
-          console.error('Error al actualizar:', err);
+          console.error('❌ Error al actualizar:', err);
           alert('Error al actualizar el autor: ' + (err.error?.detail || err.message));
         }
       });
+    } else {
+      console.log('➕ Creando nuevo autor');
+      
+      this.autoresService.createAutor(autorParaGuardar).subscribe({
+        next: () => {
+          console.log('✅ Autor creado');
+          alert('Autor creado exitosamente');
+          this.cargarAutores();
+          this.cerrarModal();
+        },
+        error: (err) => {
+          console.error('❌ Error al crear:', err);
+          alert('Error al crear el autor: ' + (err.error?.detail || err.message));
+        }
+      });
     }
-  } else {
-    this.autoresService.createAutor(autorParaGuardar).subscribe({
-      next: () => {
-        alert('Autor creado exitosamente');
-        this.cargarAutores();
-        this.cerrarModal();
-      },
-      error: (err) => {
-        console.error('Error al crear:', err);
-        alert('Error al crear el autor: ' + (err.error?.detail || err.message));
-      }
-    });
   }
-}
+
   eliminarAutor(autor: AutorResponse): void {
-    // Obtener el ID dinámicamente del objeto
-    const id = autor['Id_Autor'];
+    const id = autor.Id_Autor;
     
     if (!id) {
       alert('Error: No se puede identificar el autor');
@@ -129,7 +150,7 @@ export class AdminAutoresComponent implements OnInit {
           this.cargarAutores();
         },
         error: (err) => {
-          alert('Error al eliminar el autor');
+          alert('Error al eliminar el autor: ' + (err.error?.detail || err.message));
         }
       });
     }

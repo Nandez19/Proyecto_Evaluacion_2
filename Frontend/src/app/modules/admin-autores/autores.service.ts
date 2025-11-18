@@ -8,68 +8,94 @@ export interface AutorResponse {
   Cedula_Autor: string;
   Nombre: string;
   Telefono: string;
-  Edad: string;
+  Edad: string;  // ← Todo es string
 }
 
 export interface AutorCreate {
   Cedula_Autor: string;
   Nombre: string;
   Telefono: string;
-  Edad: string;
+  Edad: string;  // Se mantiene como string para el formulario
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutoresService {
-  private apiUrl = 'http://127.0.0.1:8000/autores/autores/';  // ← Agrega la / al final
+  private apiUrl = 'http://127.0.0.1:8000/autores/autores';  // ← Sin / al final
 
   constructor(private http: HttpClient) {}
 
   getAutores(): Observable<AutorResponse[]> {
-    return this.http.get<AutorResponse[]>(this.apiUrl).pipe(
+    return this.http.get<AutorResponse[]>(`${this.apiUrl}/`).pipe(
       tap((response) => {
         console.log('🔍 Respuesta bruta del backend:', response);
         console.log('¿Es array?', Array.isArray(response));
-        
-        if (response && typeof response === 'object' && !Array.isArray(response)) {
-          console.log('⚠️ No es array directo. Propiedades disponibles:', Object.keys(response));
-        }
       })
     );
   }
 
   getAutor(id: string): Observable<AutorResponse> {
-    return this.http.get<AutorResponse>(`${this.apiUrl}${id}`);  // ← Sin / extra
+    return this.http.get<AutorResponse>(`${this.apiUrl}/${id}/`);
   }
 
   createAutor(autor: AutorCreate): Observable<AutorResponse> {
-  console.log('🔵 SERVICE - Datos recibidos:', autor);
-  console.log('🔵 SERVICE - URL completa:', this.apiUrl);
-  console.log('🔵 SERVICE - Tipos de datos:', {
-    Cedula_Autor: typeof autor.Cedula_Autor,
-    Nombre: typeof autor.Nombre,
-    Telefono: typeof autor.Telefono,
-    Edad: typeof autor.Edad
-  });
-  
-  return this.http.post<AutorResponse>(this.apiUrl, autor).pipe(
-    tap(response => console.log('✅ Respuesta exitosa:', response)),
-    tap({
-      error: err => {
-        console.error('❌ Error en POST:', err);
-        console.error('❌ Status:', err.status);
-        console.error('❌ Body:', err.error);
-      }
-    })
-  );
-}
+    console.log('🔵 SERVICE - Creando autor:', autor);
+    
+    const payload = {
+      Cedula_Autor: autor.Cedula_Autor,
+      Nombre: autor.Nombre,
+      Telefono: autor.Telefono,
+      Edad: autor.Edad  // ← Mantener como string
+    };
+    
+    console.log('📤 SERVICE - Payload transformado:', payload);
+    
+    return this.http.post<AutorResponse>(`${this.apiUrl}/`, payload).pipe(
+      tap(response => console.log('✅ Respuesta exitosa:', response)),
+      tap({
+        error: err => {
+          console.error('❌ Error en POST:', err);
+          console.error('❌ Status:', err.status);
+          console.error('❌ Body:', err.error);
+        }
+      })
+    );
+  }
 
   updateAutor(id: string, autor: AutorCreate): Observable<AutorResponse> {
-    return this.http.put<AutorResponse>(`${this.apiUrl}${id}`, autor);  // ← Sin / extra
+    console.log('🟡 SERVICE - Actualizando autor:', { id, autor });
+    
+    const payload = {
+      Cedula_Autor: autor.Cedula_Autor,
+      Nombre: autor.Nombre,
+      Telefono: autor.Telefono,
+      Edad: autor.Edad  // ← Mantener como string
+    };
+    
+    console.log('📤 SERVICE - URL:', `${this.apiUrl}/${id}/`);
+    console.log('📤 SERVICE - Payload:', payload);
+    
+    return this.http.put<AutorResponse>(`${this.apiUrl}/${id}/`, payload).pipe(
+      tap(response => console.log('✅ Update exitoso:', response)),
+      tap({
+        error: err => {
+          console.error('❌ Error en PUT:', err);
+          console.error('❌ Status:', err.status);
+          console.error('❌ Body:', err.error);
+          console.error('❌ Detail completo:', JSON.stringify(err.error, null, 2));
+        }
+      })
+    );
   }
 
   deleteAutor(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}${id}`);  // ← Sin / extra
+    console.log('🔴 SERVICE - Eliminando autor ID:', id);
+    return this.http.delete(`${this.apiUrl}/${id}/`).pipe(
+      tap(() => console.log('✅ Eliminación exitosa')),
+      tap({
+        error: err => console.error('❌ Error en DELETE:', err)
+      })
+    );
   }
 }
