@@ -302,6 +302,8 @@ def create_initial_libros():
     finally:
         db.close()
 
+        
+
 
 def create_all_initial_data():
     """Ejecuta la creación de todos los datos iniciales."""

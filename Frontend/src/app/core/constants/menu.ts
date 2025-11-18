@@ -36,6 +36,8 @@ export class Menu {
             { label: 'Gestión de Préstamos', route: '/dashboard/Prestamos' },
             { label: 'Gestión de Bibliotecarios', route: '/dashboard/admin-bibliotecarios' },
             { label: 'Gestión de Clientes', route: '/dashboard/admin-clientes' },
+            {label: 'Gestion de Usuarios', route: '/dashboard/Usuarios'}
+            
           ],
         },
       ],

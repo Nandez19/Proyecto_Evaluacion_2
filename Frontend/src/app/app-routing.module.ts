@@ -33,11 +33,15 @@ const routes: Routes = [
     path: 'libros', 
     loadChildren: () => import('./modules/libros/libros.module').then(m => m.LibrosModule) 
   },
-  // ⭐ NUEVA RUTA DE AUTORES
+  
   { 
     path: 'autores', 
     loadChildren: () => import('./modules/admin-autores/admin-autores.module').then(m => m.AdminAutoresModule) 
   },
+
+  
+
+
   { path: '**', redirectTo: 'errors/404' },
 ];
 
