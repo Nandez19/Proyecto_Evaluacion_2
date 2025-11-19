@@ -1,3 +1,5 @@
+Entrega #4
+
 Titulo : Sistema de gestion Bibliotecaria
 
 Descripcion general: El sistema cuenta con la capacidad de automatizar procesos bibliotecarios, como lo son: -Apartado de libro: Permite la interaccion con cada uno de los libros que se encuentran en el sistemas y desarrolla funciones que permiten una gestion optima de l biblioteca (Crea, Actualiza, Elimina y presenta los libros). -Apartado de usuarios: Permite la el conteo y gestion de los usuarios que interactuan con el sistema, presenta de una forma ordenada el historial/Registro de los que se encuentran en el sistema. -Apartado de Prestamo: Permite llevar un registro o un control de las transacciones realizadas por los usuarios sobre los libros de los que dispone la biblioteca.
