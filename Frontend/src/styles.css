@@ -162,11 +162,11 @@
     --foreground: #0C1420;
     --card: #F1F5F9;
     --card-foreground: #000000;
-    --primary: #E11D48;
+    --primary: #0076fd;
     --primary-foreground: #FFFFFF;
     --muted: #CFD9E5;
     --muted-foreground: #64748B;
-    --destructive: #CC0033;
+    --destructive: #0076fd;
     --destructive-foreground: #FAFAFA;
     --border: #E2E8F0;
   }
@@ -197,7 +197,7 @@
   }
 
   :root[data-theme='red'] {
-    --primary: #CC0033;
+    --primary: #0076fd;
   }
 
   .dark[data-theme='red'] {

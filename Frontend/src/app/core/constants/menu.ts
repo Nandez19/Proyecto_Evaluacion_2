@@ -30,7 +30,6 @@ export class Menu {
           label: 'Auditoria (Solo admin)',
           route: '/components',
           children: [
-            { label: 'Usuarios', route: '/components/table' },
             { label: 'Gestión de Libros', route: '/dashboard/admin-libros' }, // Una sola página con tabs
             { label: 'Gestión de Autores', route: '/dashboard/admin-autores' },
             { label: 'Gestión de Préstamos', route: '/dashboard/Prestamos' },
