@@ -3,6 +3,7 @@ Configuración compartida para todas las pruebas
 Fixtures y configuración común
 """
 import pytest
+from datetime import datetime
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import sessionmaker
 from Database.conexion import Base, get_db
@@ -76,16 +77,18 @@ def client(db_session):
 @pytest.fixture
 def usuario_ejemplo(db_session):
     """Fixture para crear un usuario de ejemplo"""
-    from entities.usuario import Usuario
-    from auth.security import PasswordManager
+    from src.entities.usuario import Usuario
+    from src.auth.jwt_handler import get_password_hash
     
     usuario = Usuario(
-        nombre="Usuario Test",
-        nombre_usuario="testuser",
-        email="test@example.com",
-        contraseña_hash=PasswordManager.hash_password("Password123!"),
-        activo=True,
-        es_admin=False
+        Username="testuser",
+        Nombre="Usuario Test",
+        Correo="test@example.com",
+        Telefono="3001234567",
+        Password_Hash=str(get_password_hash("Password123!")),
+        Activo=True,
+        Rol="USER",
+        Fecha_creacion=datetime.now()
     )
     db_session.add(usuario)
     db_session.commit()
@@ -96,19 +99,124 @@ def usuario_ejemplo(db_session):
 @pytest.fixture
 def admin_ejemplo(db_session):
     """Fixture para crear un usuario administrador de ejemplo"""
-    from entities.usuario import Usuario
-    from auth.security import PasswordManager
+    from src.entities.usuario import Usuario
+    from src.auth.jwt_handler import get_password_hash
     
     admin = Usuario(
-        nombre="Administrador",
-        nombre_usuario="admin",
-        email="admin@system.com",
-        contraseña_hash=PasswordManager.hash_password("Admin123!"),
-        activo=True,
-        es_admin=True
+        Username="admin",
+        Nombre="Administrador",
+        Correo="admin@system.com",
+        Telefono="3009876543",
+        Password_Hash=str(get_password_hash("Admin123!")),
+        Activo=True,
+        Rol="ADMIN",
+        Fecha_creacion=datetime.now()
     )
     db_session.add(admin)
     db_session.commit()
     db_session.refresh(admin)
     return admin
 
+
+@pytest.fixture
+def token_usuario(client, usuario_ejemplo):
+    """
+    Fixture para obtener token JWT de un usuario normal.
+    Hace login y devuelve el token.
+    """
+    # Tu login usa Form data, NO JSON
+    login_data = {
+        "username": usuario_ejemplo.Username,
+        "password": "Password123!"
+    }
+    response = client.post("/auth/login", data=login_data)
+    
+    if response.status_code != 200:
+        raise Exception(f"Login falló: {response.json()}")
+    
+    return response.json()["access_token"]
+
+
+@pytest.fixture
+def token_admin(client, admin_ejemplo):
+    """
+    Fixture para obtener token JWT de un administrador.
+    Hace login y devuelve el token.
+    """
+    # Tu login usa Form data, NO JSON
+    login_data = {
+        "username": admin_ejemplo.Username,
+        "password": "Admin123!"
+    }
+    response = client.post("/auth/login", data=login_data)
+    
+    if response.status_code != 200:
+        raise Exception(f"Login falló: {response.json()}")
+    
+    return response.json()["access_token"]
+
+
+@pytest.fixture
+def headers_usuario(token_usuario):
+    """
+    Fixture para obtener headers con token de usuario normal.
+    """
+    return {"Authorization": f"Bearer {token_usuario}"}
+
+
+@pytest.fixture
+def headers_admin(token_admin):
+    """
+    Fixture para obtener headers con token de admin.
+    """
+    return {"Authorization": f"Bearer {token_admin}"}
+
+
+@pytest.fixture
+def autor_ejemplo(db_session):
+    """Fixture para crear un autor de ejemplo"""
+    from src.entities.autor import Autor
+    
+    autor = Autor(
+        Cedula_Autor="1234567890",
+        Nombre="Gabriel García Márquez",
+        Telefono="3001234567",
+        Edad="95"
+    )
+    db_session.add(autor)
+    db_session.commit()
+    db_session.refresh(autor)
+    return autor
+
+
+@pytest.fixture
+def bibliotecario_ejemplo(db_session):
+      from src.entities.bibliotecario import Bibliotecario
+      biblio = Bibliotecario(
+          Cedula_Bibliotecario="1234567890",
+          Nombre="Ejemplo",
+          Telefono="3001234567",
+          Edad="30",
+          # Asigna Id_usuario_creacion si es requerido
+      )
+      db_session.add(biblio)
+      db_session.commit()
+      db_session.refresh(biblio)
+      return biblio
+
+@pytest.fixture
+def cliente_ejemplo(db_session):
+
+    from src.entities.cliente import Cliente
+
+    cliente = Cliente(
+        Cedula_Cliente="1234567890",
+        Nombre="Ejemplo",
+        Telefono="3001234567",
+        Correo="ejemplo@example.com",
+        # Asigna Id_usuario_creacion si es requerido
+    )
+    db_session.add(cliente)
+    db_session.commit()
+    db_session.refresh(cliente)
+    return cliente

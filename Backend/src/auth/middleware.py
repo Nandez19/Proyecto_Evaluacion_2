@@ -5,6 +5,7 @@ Authentication middleware for protecting endpoints.
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
+from uuid import UUID
 
 from Database.conexion import get_db
 from src.auth.jwt_handler import verify_token
@@ -17,36 +18,34 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ) -> UserResponse:
-    """Verificar token"""
-
     token_data = verify_token(token)
-    user_id = token_data.get("user_id")
-
-    if not user_id:
+    user_id_str = token_data.get("user_id")  # Es una string del JWT
+    if not user_id_str:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token inválido o sin ID de usuario",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
-    """Buscar usuario en la base de datos"""
-
-    user = get_user_by_id(db, user_id)
+    try:
+        user_id = UUID(user_id_str)  # Convierte string a UUID aquí
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="ID de usuario inválido en el token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    user = get_user_by_id(db, user_id)  # Ahora pasa el UUID al controller
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario no encontrado",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
     if not user.Activo:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario inactivo",
-            headers={"WWW-Authenticate": "Bearer"},
         )
-
-    """Retornar datos del usuario autenticado"""
 
     return UserResponse(
         Id_Usuario=user.Id_Usuario,

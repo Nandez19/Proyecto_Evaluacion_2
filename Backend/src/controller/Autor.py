@@ -1,20 +1,30 @@
 from sqlalchemy.orm import Session
-
+from sqlalchemy.exc import IntegrityError
 from src.entities.autor import Autor
+from src.schemas.autor import AutorCreate
 
 
-def create_autor(db: Session, autor: Autor):
-    new_autor = Autor(
-        ##Id_Autor=str(autor.Id_Autor),
-        Cedula_Autor=autor.Cedula_Autor,
-        Nombre=autor.Nombre,
-        Telefono=autor.Telefono,
-        Edad=autor.Edad,
-    )
-    db.add(new_autor)
-    db.commit()
-    db.refresh(new_autor)
-    return new_autor
+def create_autor(db: Session, autor: AutorCreate):
+    """
+    Crea un nuevo autor en la base de datos.
+    Maneja IntegrityError para cédulas duplicadas.
+    """
+    try:
+        new_autor = Autor(
+
+            Cedula_Autor=autor.Cedula_Autor,
+            Nombre=autor.Nombre,
+            Telefono=autor.Telefono,
+            Edad=autor.Edad,
+
+        )
+        db.add(new_autor)
+        db.commit()
+        db.refresh(new_autor)
+        return new_autor
+    except IntegrityError:
+        db.rollback()  
+        return None  
 
 
 def get_autor(db: Session, autor_id: int):
