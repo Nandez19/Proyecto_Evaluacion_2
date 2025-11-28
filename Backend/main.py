@@ -69,8 +69,8 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 def startup_event():
-    create_tables()
-    create_all_initial_data()
+    #create_tables()
+    #create_all_initial_data()
     print("✅ Tablas creadas al iniciar FastAPI")
 
 

@@ -19,22 +19,22 @@ RUTAS PARA AUTORES
 
 @router.post("/autores/", response_model=AutorResponse, tags=["Autores"])
 def create_autor(autor: AutorCreate, db: Session = Depends(get_db)) -> JSONResponse:
-    autor_creado = autor_controller.create_autor(db=db, autor=autor)
-    if autor_creado is None:
-        raise HTTPException(status_code=400, detail="Error al crear el autor")
-    else:
-        return JSONResponse(
-            status_code=201,
-            content={
-                "detail": "Autor creado correctamente",
-                "Cuerpo de la respuesta": {
-                    # "ID del Autor": str(autor.Id_Autor),
-                    "Cédula": autor.Cedula_Autor,
-                    "Nombre": autor.Nombre,
-                    "Teléfono": autor.Telefono,
-                    "Edad": autor.Edad,
+        autor_creado = autor_controller.create_autor(db=db, autor=autor)
+        if autor_creado is None:
+            raise HTTPException(status_code=400, detail="Error al crear el autor")
+        else:
+            return JSONResponse(
+                status_code=201,
+                content={
+                    "detail": "Autor creado correctamente",
+                    "Cuerpo de la respuesta": {
+                        # "ID del Autor": str(autor.Id_Autor),
+                        "Cédula": autor.Cedula_Autor,
+                        "Nombre": autor.Nombre,
+                        "Teléfono": autor.Telefono,
+                        "Edad": autor.Edad,
+                    },
                 },
-            },
         )
 
 
